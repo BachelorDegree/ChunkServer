@@ -1,4 +1,7 @@
 #include "AllocateInodeHandler.hpp"
+#include "../define.hpp"
+#include "../Logic/Logic.hpp"
+#include "../CoreDeps/include/SliceId.hpp"
 
 void AllocateInodeHandler::SetInterfaceName(void)
 {
@@ -17,7 +20,41 @@ void AllocateInodeHandler::Proceed(void)
         // Firstly, spawn a new handler for next incoming RPC call
         new AllocateInodeHandler(service, cq);
         // Implement your logic here
-        // response.set_reply(request.greeting());
+
+    {
+        Storage::SliceId sid(request.slice_id());
+        do
+        {
+            if (sid.Cluster() != GClusterId 
+                || sid.Machine() != GMachineId
+                || sid.Disk() >= GDiskCount
+            )
+            {
+                // Todo: SET ERROR CODE
+                break;
+            }
+            auto &di = GDiskInfo[sid.Disk()];
+            if (sid.Chunk() >= static_cast<uint64_t>(di.ChunkCount))
+            {
+                // Todo: SET ERROR CODE
+                break;
+            }
+            auto &ci = di.Chunks[sid.Chunk()];
+            // Lock this chunk
+            CoMutexGuard guard(ci.Mutex);
+            Inode inode;
+            inode.RefCount = 1;
+            inode.LogicalLength = request.data_length();
+            inode.Offset = ChunkInodeSectionOffset + ci.ActualUsedSpace;
+            ci.ActualUsedSpace += inode.ActualLength();
+            ci.LogicalUsedSpace += inode.LogicalLength;
+            ++ci.NextInode;
+            inode.FlushToDisk(request.slice_id());
+            int ret = ci.FlushToDisk();
+        } while (false);
+        // Todo: log
+    }
+
         this->SetStatusFinish();
         responder.Finish(response, grpc::Status::OK, this);
         break;

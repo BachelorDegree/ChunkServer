@@ -1,7 +1,7 @@
-
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdexcept>
@@ -11,7 +11,7 @@
 #include "../define.hpp"
 
 
-int DoCheckDisk(const char *device)
+int DoCheckDisk(const char *device, DiskInfo &di)
 {
     printf("Checking %s\n", device);
     int fd = open(device, O_RDWR);
@@ -28,6 +28,8 @@ int DoCheckDisk(const char *device)
     }
     constexpr auto chunk_size = 1LU << 31; // 2 GiB
     auto chunk_count = disk_size / chunk_size;
+    di.ChunkCount = chunk_count;
+    di.Chunks = new ChunkInfo[di.ChunkCount];
     for (decltype(chunk_count) chunk_i = 0; chunk_i < chunk_count; ++chunk_i)
     {
         auto base_offset = chunk_i * chunk_size;
@@ -41,6 +43,11 @@ int DoCheckDisk(const char *device)
         }
         printf("version: %d, hex: 0x%016lx, next_inode: %u, l_used: %u, a_used: %u(4k aligned)\n", 
             ch.Version, ch.ChunkId, ch.NextInode, ch.LogicalUsedSpace, ch.ActualUsedSpace);
+        auto &ci = di.Chunks[chunk_i];
+        ci.ChunkId = ch.ChunkId;
+        ci.NextInode = ch.NextInode;
+        ci.ActualUsedSpace = ch.ActualUsedSpace;
+        ci.LogicalUsedSpace = ch.LogicalUsedSpace;
     }
     close(fd);
     return chunk_count;
@@ -67,11 +74,12 @@ void DoInitialize(const char *conf_file)
         const auto &device = LibConf.GetKV(string("root\\disks\\").append(tag).c_str(), "path");
         int disk_id = atoi(LibConf.GetKV(string("root\\disks\\").append(tag).c_str(), "disk_id").c_str());
         auto &di = GDiskInfo[disk_id];
-        di.ChunkCount = DoCheckDisk(device.c_str());
+        DoCheckDisk(device.c_str(), di);
         if (di.ChunkCount < 0)
         {
             printf("check failed, retcode = %d\n", di.ChunkCount);
         }
-        di.Fd = open(device.c_str(), O_RDWR | O_DIRECT);
+        di.Fd = open(device.c_str(), O_RDWR);
+        printf("Opening %s, fd=%d\n", tag.c_str(), di.Fd);
     }
 }
