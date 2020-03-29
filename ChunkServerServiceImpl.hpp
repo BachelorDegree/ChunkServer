@@ -5,7 +5,10 @@ class ChunkServerServiceImpl
 public:
     static ChunkServerServiceImpl *GetInstance();
     static void SetInstance(ChunkServerServiceImpl *);
-    int OnServerStart(){
+    static int BeforeServerStart(const char * czConf) {
+        return 0;
+    }
+    int BeforeWorkerStart() {
         return 0;
     }
     int SetChunkStatus(const ::chunkserver::SetChunkStatusReq & oReq, ::chunkserver::SetChunkStatusRsp & oResp);

@@ -14,9 +14,10 @@ const char * EXPORT_Description(void)
     return "chunkserver";
 }
 
-void EXPORT_DylibInit(const char *file)
+void EXPORT_DylibInit(const char *conf_file)
 {
-    DoInitialize(file);
+    DoInitialize(conf_file);
+    ChunkServerServiceImpl::BeforeServerStart(conf_file);
 }
 
 grpc::Service * EXPORT_GetGrpcServiceInstance(void)
@@ -27,7 +28,7 @@ grpc::Service * EXPORT_GetGrpcServiceInstance(void)
 void EXPORT_OnWorkerThreadStart(grpc::ServerCompletionQueue *cq)
 {
   ChunkServerServiceImpl::SetInstance(new ChunkServerServiceImpl);
-  ChunkServerServiceImpl::GetInstance()->OnServerStart();
+  ChunkServerServiceImpl::GetInstance()->BeforeWorkerStart();
   // Bind handlers
 
     new SetChunkStatusHandler(&service, cq);

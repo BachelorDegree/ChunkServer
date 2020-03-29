@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include "DiskInfo.hpp"
-#include "../CoreDeps/include/TfcConfigCodec.hpp"
+#include "coredeps/TfcConfigCodec.hpp"
 
 extern AlohaIO::TfcConfigCodec LibConf;
 extern uint64_t GClusterId, GMachineId;

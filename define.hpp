@@ -12,6 +12,15 @@ constexpr uint32_t ChunkHeaderOffset = 0;
 constexpr uint32_t ChunkInodeSectionOffset = 4096;
 constexpr uint32_t ChunkDataSectionOffset = 16781312;
 
+enum CHUNKSERVER_ERROR_CODE // Range -2000 ~ -2200
+{
+    // AllocatedInode, 2010~2020
+    E_DISK_NOT_ON_THIS_MACHINE = -2010,
+    E_CHUNK_ID_OUT_OF_RANGE = -2011,
+    E_FLUSH_INODE_FAILED = -2012,
+    E_FLUSH_CHUNK_HEADER_FAILED = -2013,
+};
+
 struct ChunkHeader
 {
     char     Magic[16];
