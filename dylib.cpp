@@ -4,7 +4,7 @@
 #include "Handler/AllocateInodeHandler.hpp"
 #include "Handler/ReadSliceHandler.hpp"
 #include "Handler/WriteSliceHandler.hpp"
-#include "CoreDeps/include/SatelliteClient.hpp"
+#include "coredeps/SatelliteClient.hpp"
 #include "Logic/Logic.hpp"
 
 ::chunkserver::ChunkServerService::AsyncService service;
@@ -22,11 +22,6 @@ void EXPORT_DylibInit(const char *conf_file)
 grpc::Service * EXPORT_GetGrpcServiceInstance(void)
 {
     return &service;
-}
-
-void EXPORT_BindSatelliteInstance(SatelliteClient *i)
-{
-    SatelliteClient::SetInstance(i);
 }
 
 void EXPORT_OnWorkerThreadStart(grpc::ServerCompletionQueue *cq)

@@ -10,6 +10,8 @@
 #include "Logic.hpp"
 #include "../define.hpp"
 
+#include "../CoreDeps/include/SatelliteClient.hpp"
+
 
 int DoCheckDisk(const char *device, DiskInfo &di)
 {
@@ -65,7 +67,7 @@ void DoInitialize(const char *conf_file)
     }
     GClusterId = atoi(LibConf.GetKV("root", "cluster_id").c_str());
     GMachineId = atoi(LibConf.GetKV("root", "machine_id").c_str());
-    printf("%lu %lu\n", GClusterId, GMachineId);
+    printf("cid=%lu mid=%lu\n", GClusterId, GMachineId);
     GDiskCount = LibConf.GetSection("root\\disks").Children.size();
     GDiskInfo = new DiskInfo[GDiskCount];
     for (const auto &i : LibConf.GetSection("root\\disks").Children)
