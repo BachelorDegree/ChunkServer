@@ -1,10 +1,10 @@
 #include "dylib_export.h"
 #include "Proto/chunkserver.grpc.pb.h"
+#include "ChunkServerServiceImpl.hpp"
 #include "Handler/SetChunkStatusHandler.hpp"
 #include "Handler/AllocateInodeHandler.hpp"
 #include "Handler/ReadSliceHandler.hpp"
 #include "Handler/WriteSliceHandler.hpp"
-#include "coredeps/SatelliteClient.hpp"
 #include "Logic/Logic.hpp"
 
 ::chunkserver::ChunkServerService::AsyncService service;
@@ -14,9 +14,9 @@ const char * EXPORT_Description(void)
     return "chunkserver";
 }
 
-void EXPORT_DylibInit(const char *conf_file)
+void EXPORT_DylibInit(const char *file)
 {
-    DoInitialize(conf_file);
+    DoInitialize(file);
 }
 
 grpc::Service * EXPORT_GetGrpcServiceInstance(void)
@@ -26,7 +26,9 @@ grpc::Service * EXPORT_GetGrpcServiceInstance(void)
 
 void EXPORT_OnWorkerThreadStart(grpc::ServerCompletionQueue *cq)
 {
-    // Bind handlers
+  ChunkServerServiceImpl::SetInstance(new ChunkServerServiceImpl);
+  ChunkServerServiceImpl::GetInstance()->OnServerStart();
+  // Bind handlers
 
     new SetChunkStatusHandler(&service, cq);
     new AllocateInodeHandler(&service, cq);
