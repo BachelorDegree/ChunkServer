@@ -77,7 +77,6 @@ void InodeLruCache::InitializeMemoryPool(uint64_t size)
 
 void* InodeLruCache::Get4kBlockPointer(uint64_t uSliceId)
 {
-    CoMutexGuard guard(PImpl->Mutex);
     void *pRet = nullptr;
     auto iFirstIn4K = CalculateFirstSliceIn4kBlock(uSliceId); // 用这个作为key
     auto it = PImpl->Map.find(iFirstIn4K);
@@ -119,19 +118,19 @@ void* InodeLruCache::Get4kBlockPointer(uint64_t uSliceId)
 Inode InodeLruCache::Get(uint64_t uSliceId)
 {
     Inode oRet;
+    CoMutexGuard guard(PImpl->Mutex);
     auto iFirstIn4K = CalculateFirstSliceIn4kBlock(uSliceId);
     auto pBlock = static_cast<char*>(this->Get4kBlockPointer(uSliceId));
     auto uOffsetDiff = (uSliceId - iFirstIn4K) * sizeof(Inode);
-    CoMutexGuard guard(PImpl->Mutex);
     memcpy(&oRet, pBlock + uOffsetDiff, sizeof(Inode));
     return oRet;
 }
 
 void InodeLruCache::Put(uint64_t uSliceId, const Inode& oInode)
 {
+    CoMutexGuard guard(PImpl->Mutex);
     auto iFirstIn4K = CalculateFirstSliceIn4kBlock(uSliceId);
     auto pBlock = static_cast<char*>(this->Get4kBlockPointer(uSliceId));
     auto uOffsetDiff = (uSliceId - iFirstIn4K) * sizeof(oInode);
-    CoMutexGuard guard(PImpl->Mutex);
     memcpy(pBlock + uOffsetDiff, &oInode, sizeof(oInode));
 }

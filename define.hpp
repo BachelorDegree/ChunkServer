@@ -14,12 +14,17 @@ constexpr uint32_t ChunkDataSectionOffset = 16781312;
 
 enum CHUNKSERVER_ERROR_CODE // Range -2000 ~ -2200
 {
-    // AllocatedInode, 2010~2020
+    // AllocatedInode, 2010~2019
     E_DISK_NOT_ON_THIS_MACHINE = -2010,
     E_CHUNK_ID_OUT_OF_RANGE = -2011,
     E_FLUSH_INODE_FAILED = -2012,
     E_FLUSH_CHUNK_HEADER_FAILED = -2013,
     E_SLICE_NUMBER_DOES_NOT_MATCH_CHUNK_STATUS = -2014,
+    // WriteSliceHandler, 2020~2029
+    E_OFFSET_OUT_OF_RANGE = -2020,
+    E_DATA_LENGTH_OUT_OF_RANGE = -2021,
+    E_PREAD_FAILED = -2022,
+    E_PWRITE_FAILED = -2023,
 };
 
 namespace libco
@@ -73,7 +78,7 @@ struct ChunkHeader
 
 struct Inode
 {
-    uint32_t Offset;
+    uint32_t Offset; // 相对data段起点的偏移
     uint32_t LogicalLength;
     uint32_t RefCount;
     uint32_t Padding;
