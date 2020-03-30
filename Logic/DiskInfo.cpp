@@ -2,9 +2,10 @@
 #include "define.hpp"
 #include "Logic.hpp"
 #include "DiskInfo.hpp"
+#include "InodeLruCache.hpp"
 #include "colib/co_mutex.h"
 #include "colib/co_aio.h"
-#include "../CoreDeps/include/SliceId.hpp"
+#include "coredeps/SliceId.hpp"
 
 DiskInfo::DiskInfo(void):
     Fd(0), ChunkCount(0),
@@ -85,7 +86,7 @@ ChunkHeader ChunkInfo::GetChunkHeader(void) const
 
 void Inode::FlushLruCache(uint64_t sliceId)
 {
-    // Todo
+    InodeLruCache::GetInstance().Put(sliceId, *this);
 }
 
 ssize_t Inode::FlushToDisk(uint64_t sliceId, bool UseCoroutine)
