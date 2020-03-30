@@ -2,24 +2,16 @@
 
 #include <cstdio>
 #include <fcntl.h>
-#include "../CoreDeps/include/SliceId.hpp"
+#include "coredeps/SliceId.hpp"
+
+#include "../define.hpp"
 
 namespace libco
 {
     class CoMutex;
 }
 
-class CoMutexGuard
-{
-public:
-    CoMutexGuard(libco::CoMutex&);
-    CoMutexGuard(libco::CoMutex*);
-    ~CoMutexGuard(void);
-private:
-    libco::CoMutex& _CoMutex;
-    CoMutexGuard(CoMutexGuard&) = delete;
-    CoMutexGuard& operator= (CoMutexGuard&) = delete;
-};
+struct DiskInfo;
 
 struct ChunkInfo
 {
@@ -28,9 +20,16 @@ struct ChunkInfo
     uint32_t LogicalUsedSpace;
     uint32_t ActualUsedSpace;
     libco::CoMutex *Mutex;
-    ChunkInfo(void);
+    DiskInfo* DiskInfoPtr;
+    explicit ChunkInfo(DiskInfo* pParent = nullptr);
     ~ChunkInfo(void);
+    void SetDiskInfoPtr(DiskInfo *pParent);
     ssize_t FlushToDisk(bool UseCoroutine = true);
+    ChunkHeader GetChunkHeader(void) const;
+    off_t GetBaseOffset(void) const;
+    off_t GetInodeOffset(uint64_t iSliceNumber) const;
+    off_t GetDataSectionOffset(void) const;
+    off_t GetInodeSectionOffset(void) const;
 };
 
 struct DiskInfo

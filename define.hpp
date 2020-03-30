@@ -21,6 +21,23 @@ enum CHUNKSERVER_ERROR_CODE // Range -2000 ~ -2200
     E_FLUSH_CHUNK_HEADER_FAILED = -2013,
 };
 
+namespace libco
+{
+    class CoMutex;
+}
+
+class CoMutexGuard
+{
+public:
+    CoMutexGuard(libco::CoMutex&);
+    CoMutexGuard(libco::CoMutex*);
+    ~CoMutexGuard(void);
+private:
+    libco::CoMutex& _CoMutex;
+    CoMutexGuard(CoMutexGuard&) = delete;
+    CoMutexGuard& operator= (CoMutexGuard&) = delete;
+};
+
 struct ChunkHeader
 {
     char     Magic[16];
@@ -58,10 +75,12 @@ struct Inode
     uint32_t Offset;
     uint32_t LogicalLength;
     uint32_t RefCount;
+    uint32_t Padding;
     uint32_t ActualLength(void) const
     {
         return static_cast<uint32_t>(ceil((LogicalLength / static_cast<double>(FourKiB))) * FourKiB);
     }
+    size_t SizeOfInode(void) const { return sizeof(Inode); }
     void FlushLruCache(uint64_t sliceId);
     ssize_t FlushToDisk(uint64_t sliceId, bool UseCoroutine = true);
 };

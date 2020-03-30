@@ -6,23 +6,6 @@
 #include "colib/co_aio.h"
 #include "../CoreDeps/include/SliceId.hpp"
 
-CoMutexGuard::CoMutexGuard(libco::CoMutex &m):
-    _CoMutex(m)
-{
-    _CoMutex.lock();
-}
-
-CoMutexGuard::CoMutexGuard(libco::CoMutex *m):
-    _CoMutex(*m)
-{
-    _CoMutex.lock();
-}
-
-CoMutexGuard::~CoMutexGuard(void)
-{
-    _CoMutex.unlock();
-}
-
 DiskInfo::DiskInfo(void):
     Fd(0), ChunkCount(0),
     Chunks(nullptr),
@@ -41,8 +24,8 @@ DiskInfo::~DiskInfo(void)
         delete[] Chunks;
 }
 
-ChunkInfo::ChunkInfo(void):
-    Mutex(new libco::CoMutex)
+ChunkInfo::ChunkInfo(DiskInfo* pParent):
+    Mutex(new libco::CoMutex), DiskInfoPtr(pParent)
 {
 
 }
@@ -53,23 +36,51 @@ ChunkInfo::~ChunkInfo(void)
         delete Mutex;
 }
 
+void ChunkInfo::SetDiskInfoPtr(DiskInfo *pParent)
+{
+    DiskInfoPtr = pParent;
+}
+
+off_t ChunkInfo::GetBaseOffset(void) const
+{
+    return ChunkId.Chunk() * ChunkLength + ChunkHeaderOffset;
+}
+
+off_t ChunkInfo::GetInodeOffset(uint64_t iSliceNumber) const
+{
+    return this->GetInodeSectionOffset() + sizeof(Inode) * iSliceNumber;
+}
+
+off_t ChunkInfo::GetDataSectionOffset(void) const
+{
+    return this->GetBaseOffset() + ChunkDataSectionOffset;
+}
+
+off_t ChunkInfo::GetInodeSectionOffset(void) const
+{
+    return this->GetBaseOffset() + ChunkInodeSectionOffset;
+}
+
 ssize_t ChunkInfo::FlushToDisk(bool UseCoroutine)
 {
-    ChunkHeader ch;
-    ch.ChunkId = ChunkId.UInt();
-    ch.NextInode = NextInode;
-    ch.ActualUsedSpace = ActualUsedSpace;
-    ch.LogicalUsedSpace = LogicalUsedSpace;
-    auto base_offset = ChunkId.Chunk() * ChunkLength + ChunkHeaderOffset;
-    auto &di = GDiskInfo[ChunkId.Disk()];
+    auto oChunkHeader = this->GetChunkHeader();
     if (UseCoroutine)
     {
-        return co_pwrite(di.Fd, &ch, sizeof(ch), base_offset);
+        return co_pwrite(DiskInfoPtr->Fd, &oChunkHeader, sizeof(oChunkHeader), this->GetBaseOffset());
     }
     else
     {
-        return pwrite64(di.Fd, &ch, sizeof(ch), base_offset);
+        return pwrite64(DiskInfoPtr->Fd, &oChunkHeader, sizeof(oChunkHeader), this->GetBaseOffset());
     }
+}
+
+ChunkHeader ChunkInfo::GetChunkHeader(void) const
+{
+    ChunkHeader oRet(this->ChunkId.UInt());
+    oRet.NextInode = this->NextInode;
+    oRet.ActualUsedSpace = this->ActualUsedSpace;
+    oRet.LogicalUsedSpace = this->LogicalUsedSpace;
+    return oRet;
 }
 
 void Inode::FlushLruCache(uint64_t sliceId)
@@ -80,11 +91,8 @@ void Inode::FlushLruCache(uint64_t sliceId)
 ssize_t Inode::FlushToDisk(uint64_t sliceId, bool UseCoroutine)
 {
     Storage::SliceId sid(sliceId);
-    this->FlushLruCache(sliceId);
-    loff_t inode_base_offset = 4096;
-    loff_t offset = ChunkLength * sid.Chunk() + 
-        inode_base_offset + sid.Slice() * sizeof(*this);
     auto &di = GDiskInfo[sid.Disk()];
+    auto offset = di.Chunks[sid.Chunk()].GetInodeOffset(sid.Slice());
     if (UseCoroutine)
     {
         return co_pwrite(di.Fd, this, sizeof(*this), offset);
@@ -93,4 +101,5 @@ ssize_t Inode::FlushToDisk(uint64_t sliceId, bool UseCoroutine)
     {
         return pwrite64(di.Fd, this, sizeof(*this), offset);
     }
+    this->FlushLruCache(sliceId);
 }
