@@ -13,12 +13,12 @@ message SetChunkStatusRsp {
 // 分配物理分片后，inode做标记；
 // 引用计数置 1
 message AllocateInodeReq {
-    uint64 slice_id = 1;
+    uint64 chunk_id = 1;
     uint32 data_length = 2;
 }
 
 message AllocateInodeRsp {
-
+    uint64 slice_id = 1;
 }
 
 message ReadSliceReq {

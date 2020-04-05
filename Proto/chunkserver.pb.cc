@@ -205,13 +205,14 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::AllocateInodeReq, slice_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::AllocateInodeReq, chunk_id_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::AllocateInodeReq, data_length_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::AllocateInodeRsp, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::AllocateInodeRsp, slice_id_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::ReadSliceReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -246,10 +247,10 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 7, -1, sizeof(::chunkserver::SetChunkStatusRsp)},
   { 12, -1, sizeof(::chunkserver::AllocateInodeReq)},
   { 19, -1, sizeof(::chunkserver::AllocateInodeRsp)},
-  { 24, -1, sizeof(::chunkserver::ReadSliceReq)},
-  { 32, -1, sizeof(::chunkserver::ReadSliceRsp)},
-  { 39, -1, sizeof(::chunkserver::WriteSliceReq)},
-  { 47, -1, sizeof(::chunkserver::WriteSliceRsp)},
+  { 25, -1, sizeof(::chunkserver::ReadSliceReq)},
+  { 33, -1, sizeof(::chunkserver::ReadSliceRsp)},
+  { 40, -1, sizeof(::chunkserver::WriteSliceReq)},
+  { 48, -1, sizeof(::chunkserver::WriteSliceRsp)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -287,25 +288,25 @@ void AddDescriptorsImpl() {
       "\n\021chunkserver.proto\022\013chunkserver\"<\n\021SetC"
       "hunkStatusReq\022\020\n\010chunk_id\030\001 \001(\004\022\025\n\rstatu"
       "s_to_set\030\002 \001(\r\"\023\n\021SetChunkStatusRsp\"9\n\020A"
-      "llocateInodeReq\022\020\n\010slice_id\030\001 \001(\004\022\023\n\013dat"
-      "a_length\030\002 \001(\r\"\022\n\020AllocateInodeRsp\"H\n\014Re"
-      "adSliceReq\022\020\n\010slice_id\030\001 \001(\004\022\016\n\006offset\030\002"
-      " \001(\r\022\026\n\016length_to_read\030\003 \001(\r\"1\n\014ReadSlic"
-      "eRsp\022\023\n\013data_length\030\001 \001(\r\022\014\n\004data\030\002 \001(\014\""
-      "\?\n\rWriteSliceReq\022\020\n\010slice_id\030\001 \001(\004\022\016\n\006of"
-      "fset\030\002 \001(\r\022\014\n\004data\030\003 \001(\014\"\017\n\rWriteSliceRs"
-      "p2\276\002\n\022ChunkServerService\022P\n\016SetChunkStat"
-      "us\022\036.chunkserver.SetChunkStatusReq\032\036.chu"
-      "nkserver.SetChunkStatusRsp\022M\n\rAllocateIn"
-      "ode\022\035.chunkserver.AllocateInodeReq\032\035.chu"
-      "nkserver.AllocateInodeRsp\022A\n\tReadSlice\022\031"
-      ".chunkserver.ReadSliceReq\032\031.chunkserver."
-      "ReadSliceRsp\022D\n\nWriteSlice\022\032.chunkserver"
-      ".WriteSliceReq\032\032.chunkserver.WriteSliceR"
-      "spb\006proto3"
+      "llocateInodeReq\022\020\n\010chunk_id\030\001 \001(\004\022\023\n\013dat"
+      "a_length\030\002 \001(\r\"$\n\020AllocateInodeRsp\022\020\n\010sl"
+      "ice_id\030\001 \001(\004\"H\n\014ReadSliceReq\022\020\n\010slice_id"
+      "\030\001 \001(\004\022\016\n\006offset\030\002 \001(\r\022\026\n\016length_to_read"
+      "\030\003 \001(\r\"1\n\014ReadSliceRsp\022\023\n\013data_length\030\001 "
+      "\001(\r\022\014\n\004data\030\002 \001(\014\"\?\n\rWriteSliceReq\022\020\n\010sl"
+      "ice_id\030\001 \001(\004\022\016\n\006offset\030\002 \001(\r\022\014\n\004data\030\003 \001"
+      "(\014\"\017\n\rWriteSliceRsp2\276\002\n\022ChunkServerServi"
+      "ce\022P\n\016SetChunkStatus\022\036.chunkserver.SetCh"
+      "unkStatusReq\032\036.chunkserver.SetChunkStatu"
+      "sRsp\022M\n\rAllocateInode\022\035.chunkserver.Allo"
+      "cateInodeReq\032\035.chunkserver.AllocateInode"
+      "Rsp\022A\n\tReadSlice\022\031.chunkserver.ReadSlice"
+      "Req\032\031.chunkserver.ReadSliceRsp\022D\n\nWriteS"
+      "lice\022\032.chunkserver.WriteSliceReq\032\032.chunk"
+      "server.WriteSliceRspb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 730);
+      descriptor, 748);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "chunkserver.proto", &protobuf_RegisterTypes);
 }
@@ -772,7 +773,7 @@ void SetChunkStatusRsp::InternalSwap(SetChunkStatusRsp* other) {
 void AllocateInodeReq::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int AllocateInodeReq::kSliceIdFieldNumber;
+const int AllocateInodeReq::kChunkIdFieldNumber;
 const int AllocateInodeReq::kDataLengthFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -787,16 +788,16 @@ AllocateInodeReq::AllocateInodeReq(const AllocateInodeReq& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&slice_id_, &from.slice_id_,
+  ::memcpy(&chunk_id_, &from.chunk_id_,
     static_cast<size_t>(reinterpret_cast<char*>(&data_length_) -
-    reinterpret_cast<char*>(&slice_id_)) + sizeof(data_length_));
+    reinterpret_cast<char*>(&chunk_id_)) + sizeof(data_length_));
   // @@protoc_insertion_point(copy_constructor:chunkserver.AllocateInodeReq)
 }
 
 void AllocateInodeReq::SharedCtor() {
-  ::memset(&slice_id_, 0, static_cast<size_t>(
+  ::memset(&chunk_id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&data_length_) -
-      reinterpret_cast<char*>(&slice_id_)) + sizeof(data_length_));
+      reinterpret_cast<char*>(&chunk_id_)) + sizeof(data_length_));
 }
 
 AllocateInodeReq::~AllocateInodeReq() {
@@ -827,9 +828,9 @@ void AllocateInodeReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&slice_id_, 0, static_cast<size_t>(
+  ::memset(&chunk_id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&data_length_) -
-      reinterpret_cast<char*>(&slice_id_)) + sizeof(data_length_));
+      reinterpret_cast<char*>(&chunk_id_)) + sizeof(data_length_));
   _internal_metadata_.Clear();
 }
 
@@ -843,14 +844,14 @@ bool AllocateInodeReq::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // uint64 slice_id = 1;
+      // uint64 chunk_id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &slice_id_)));
+                 input, &chunk_id_)));
         } else {
           goto handle_unusual;
         }
@@ -897,9 +898,9 @@ void AllocateInodeReq::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 slice_id = 1;
-  if (this->slice_id() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->slice_id(), output);
+  // uint64 chunk_id = 1;
+  if (this->chunk_id() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->chunk_id(), output);
   }
 
   // uint32 data_length = 2;
@@ -921,9 +922,9 @@ void AllocateInodeReq::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint64 slice_id = 1;
-  if (this->slice_id() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->slice_id(), target);
+  // uint64 chunk_id = 1;
+  if (this->chunk_id() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->chunk_id(), target);
   }
 
   // uint32 data_length = 2;
@@ -948,11 +949,11 @@ size_t AllocateInodeReq::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // uint64 slice_id = 1;
-  if (this->slice_id() != 0) {
+  // uint64 chunk_id = 1;
+  if (this->chunk_id() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->slice_id());
+        this->chunk_id());
   }
 
   // uint32 data_length = 2;
@@ -989,8 +990,8 @@ void AllocateInodeReq::MergeFrom(const AllocateInodeReq& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.slice_id() != 0) {
-    set_slice_id(from.slice_id());
+  if (from.chunk_id() != 0) {
+    set_chunk_id(from.chunk_id());
   }
   if (from.data_length() != 0) {
     set_data_length(from.data_length());
@@ -1021,7 +1022,7 @@ void AllocateInodeReq::Swap(AllocateInodeReq* other) {
 }
 void AllocateInodeReq::InternalSwap(AllocateInodeReq* other) {
   using std::swap;
-  swap(slice_id_, other->slice_id_);
+  swap(chunk_id_, other->chunk_id_);
   swap(data_length_, other->data_length_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
@@ -1037,6 +1038,7 @@ void AllocateInodeReq::InternalSwap(AllocateInodeReq* other) {
 void AllocateInodeRsp::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int AllocateInodeRsp::kSliceIdFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 AllocateInodeRsp::AllocateInodeRsp()
@@ -1050,10 +1052,12 @@ AllocateInodeRsp::AllocateInodeRsp(const AllocateInodeRsp& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  slice_id_ = from.slice_id_;
   // @@protoc_insertion_point(copy_constructor:chunkserver.AllocateInodeRsp)
 }
 
 void AllocateInodeRsp::SharedCtor() {
+  slice_id_ = GOOGLE_ULONGLONG(0);
 }
 
 AllocateInodeRsp::~AllocateInodeRsp() {
@@ -1084,6 +1088,7 @@ void AllocateInodeRsp::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  slice_id_ = GOOGLE_ULONGLONG(0);
   _internal_metadata_.Clear();
 }
 
@@ -1096,12 +1101,31 @@ bool AllocateInodeRsp::MergePartialFromCodedStream(
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0) {
-      goto success;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // uint64 slice_id = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &slice_id_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
     }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, _internal_metadata_.mutable_unknown_fields()));
   }
 success:
   // @@protoc_insertion_point(parse_success:chunkserver.AllocateInodeRsp)
@@ -1118,6 +1142,11 @@ void AllocateInodeRsp::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  // uint64 slice_id = 1;
+  if (this->slice_id() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->slice_id(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
@@ -1131,6 +1160,11 @@ void AllocateInodeRsp::SerializeWithCachedSizes(
   // @@protoc_insertion_point(serialize_to_array_start:chunkserver.AllocateInodeRsp)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
+
+  // uint64 slice_id = 1;
+  if (this->slice_id() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->slice_id(), target);
+  }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
@@ -1149,6 +1183,13 @@ size_t AllocateInodeRsp::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
+  // uint64 slice_id = 1;
+  if (this->slice_id() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->slice_id());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
@@ -1176,6 +1217,9 @@ void AllocateInodeRsp::MergeFrom(const AllocateInodeRsp& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.slice_id() != 0) {
+    set_slice_id(from.slice_id());
+  }
 }
 
 void AllocateInodeRsp::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1202,6 +1246,7 @@ void AllocateInodeRsp::Swap(AllocateInodeRsp* other) {
 }
 void AllocateInodeRsp::InternalSwap(AllocateInodeRsp* other) {
   using std::swap;
+  swap(slice_id_, other->slice_id_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 

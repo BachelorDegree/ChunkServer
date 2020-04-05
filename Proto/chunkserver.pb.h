@@ -380,11 +380,11 @@ class AllocateInodeReq : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // uint64 slice_id = 1;
-  void clear_slice_id();
-  static const int kSliceIdFieldNumber = 1;
-  ::google::protobuf::uint64 slice_id() const;
-  void set_slice_id(::google::protobuf::uint64 value);
+  // uint64 chunk_id = 1;
+  void clear_chunk_id();
+  static const int kChunkIdFieldNumber = 1;
+  ::google::protobuf::uint64 chunk_id() const;
+  void set_chunk_id(::google::protobuf::uint64 value);
 
   // uint32 data_length = 2;
   void clear_data_length();
@@ -396,7 +396,7 @@ class AllocateInodeReq : public ::google::protobuf::Message /* @@protoc_insertio
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::uint64 slice_id_;
+  ::google::protobuf::uint64 chunk_id_;
   ::google::protobuf::uint32 data_length_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_chunkserver_2eproto::TableStruct;
@@ -490,10 +490,17 @@ class AllocateInodeRsp : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
+  // uint64 slice_id = 1;
+  void clear_slice_id();
+  static const int kSliceIdFieldNumber = 1;
+  ::google::protobuf::uint64 slice_id() const;
+  void set_slice_id(::google::protobuf::uint64 value);
+
   // @@protoc_insertion_point(class_scope:chunkserver.AllocateInodeRsp)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint64 slice_id_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_chunkserver_2eproto::TableStruct;
 };
@@ -1000,18 +1007,18 @@ inline void SetChunkStatusReq::set_status_to_set(::google::protobuf::uint32 valu
 
 // AllocateInodeReq
 
-// uint64 slice_id = 1;
-inline void AllocateInodeReq::clear_slice_id() {
-  slice_id_ = GOOGLE_ULONGLONG(0);
+// uint64 chunk_id = 1;
+inline void AllocateInodeReq::clear_chunk_id() {
+  chunk_id_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 AllocateInodeReq::slice_id() const {
-  // @@protoc_insertion_point(field_get:chunkserver.AllocateInodeReq.slice_id)
-  return slice_id_;
+inline ::google::protobuf::uint64 AllocateInodeReq::chunk_id() const {
+  // @@protoc_insertion_point(field_get:chunkserver.AllocateInodeReq.chunk_id)
+  return chunk_id_;
 }
-inline void AllocateInodeReq::set_slice_id(::google::protobuf::uint64 value) {
+inline void AllocateInodeReq::set_chunk_id(::google::protobuf::uint64 value) {
   
-  slice_id_ = value;
-  // @@protoc_insertion_point(field_set:chunkserver.AllocateInodeReq.slice_id)
+  chunk_id_ = value;
+  // @@protoc_insertion_point(field_set:chunkserver.AllocateInodeReq.chunk_id)
 }
 
 // uint32 data_length = 2;
@@ -1031,6 +1038,20 @@ inline void AllocateInodeReq::set_data_length(::google::protobuf::uint32 value) 
 // -------------------------------------------------------------------
 
 // AllocateInodeRsp
+
+// uint64 slice_id = 1;
+inline void AllocateInodeRsp::clear_slice_id() {
+  slice_id_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 AllocateInodeRsp::slice_id() const {
+  // @@protoc_insertion_point(field_get:chunkserver.AllocateInodeRsp.slice_id)
+  return slice_id_;
+}
+inline void AllocateInodeRsp::set_slice_id(::google::protobuf::uint64 value) {
+  
+  slice_id_ = value;
+  // @@protoc_insertion_point(field_set:chunkserver.AllocateInodeRsp.slice_id)
+}
 
 // -------------------------------------------------------------------
 

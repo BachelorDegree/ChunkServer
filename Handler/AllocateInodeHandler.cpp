@@ -42,7 +42,8 @@ void AllocateInodeHandler::Proceed(void)
 int AllocateInodeHandler::Implementation(void)
 {
     int iRet = 0;
-    Storage::SliceId oSliceId(request.slice_id());
+    Storage::SliceId oSliceId(request.chunk_id());
+    auto oRetSliceId = oSliceId;
     do
     {
         if (oSliceId.Cluster() != GClusterId 
@@ -60,13 +61,14 @@ int AllocateInodeHandler::Implementation(void)
             break;
         }
         auto &oChunkInfo = oDiskInfo.Chunks[oSliceId.Chunk()];
-        // 分配分片后该chunk转移到writing，如果两者不同则请求无效
-        if (oChunkInfo.NextInode != oSliceId.Slice())
-        {
-            iRet = E_SLICE_NUMBER_DOES_NOT_MATCH_CHUNK_STATUS;
-            spdlog::error("AllocateInode - request slice number: {}, should be: {}", oSliceId.Slice(), oChunkInfo.NextInode);
-            break;
-        }
+        oRetSliceId.SetSlice(oChunkInfo.NextInode);
+        // // 分配分片后该chunk转移到writing，如果两者不同则请求无效
+        // if (oChunkInfo.NextInode != oSliceId.Slice())
+        // {
+        //     iRet = E_SLICE_NUMBER_DOES_NOT_MATCH_CHUNK_STATUS;
+        //     spdlog::error("AllocateInode - request slice number: {}, should be: {}", oSliceId.Slice(), oChunkInfo.NextInode);
+        //     break;
+        // }
         // Lock this chunk
         CoMutexGuard guard(oChunkInfo.Mutex);
         Inode oInode;
@@ -76,11 +78,11 @@ int AllocateInodeHandler::Implementation(void)
         oChunkInfo.ActualUsedSpace += oInode.ActualLength();
         oChunkInfo.LogicalUsedSpace += oInode.LogicalLength;
         ++oChunkInfo.NextInode;
-        auto iInodeFlushRet = oInode.FlushToDisk(request.slice_id());
+        auto iInodeFlushRet = oInode.FlushToDisk(request.chunk_id());
         if (iInodeFlushRet < 0)
         {
             iRet = E_FLUSH_INODE_FAILED;
-            spdlog::error("AllocateInode - Flush inode to disk failed, syscall ret: {}, slice id: {:016x}", iInodeFlushRet, request.slice_id());
+            spdlog::error("AllocateInode - Flush inode to disk failed, syscall ret: {}, slice id: {:016x}", iInodeFlushRet, request.chunk_id());
             break;
         }
         auto iChunkInfoFlushRet = oChunkInfo.FlushToDisk();
@@ -91,6 +93,7 @@ int AllocateInodeHandler::Implementation(void)
             break;
         }
     } while (false);
-    spdlog::info("AllocateInode - slice id: {:016x}, length: {}, ret: {}", request.slice_id(), request.data_length(), iRet);
+    response.set_slice_id(oRetSliceId.UInt());
+    spdlog::info("AllocateInode - slice id: {:016x}, length: {}, ret: {}", response.slice_id(), request.data_length(), iRet);
     return iRet;
 }
