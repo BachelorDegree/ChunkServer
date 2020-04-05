@@ -86,5 +86,4 @@ int ReadSliceHandler::Implementation(void)
     } while (false);
     spdlog::info("ReadSliceHandler - slice_id: 0x{:016x}, data_length: {}, ret: {}", request.slice_id(), iPreadRet, iRet);
     return iRet;
-
 }

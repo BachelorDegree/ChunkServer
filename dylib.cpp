@@ -27,12 +27,15 @@ grpc::Service * EXPORT_GetGrpcServiceInstance(void)
 
 void EXPORT_OnWorkerThreadStart(grpc::ServerCompletionQueue *cq)
 {
-  ChunkServerServiceImpl::SetInstance(new ChunkServerServiceImpl);
-  ChunkServerServiceImpl::GetInstance()->BeforeWorkerStart();
-  // Bind handlers
-
+    // Bind handlers
     new SetChunkStatusHandler(&service, cq);
     new AllocateInodeHandler(&service, cq);
     new ReadSliceHandler(&service, cq);
     new WriteSliceHandler(&service, cq);
+}
+
+void EXPORT_OnCoroutineWorkerStart(void)
+{
+    ChunkServerServiceImpl::SetInstance(new ChunkServerServiceImpl);
+    ChunkServerServiceImpl::GetInstance()->BeforeWorkerStart();
 }
