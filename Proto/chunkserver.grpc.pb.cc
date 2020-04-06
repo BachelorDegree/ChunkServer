@@ -19,7 +19,7 @@
 namespace chunkserver {
 
 static const char* ChunkServerService_method_names[] = {
-  "/chunkserver.ChunkServerService/SetChunkStatus",
+  "/chunkserver.ChunkServerService/SetChunkState",
   "/chunkserver.ChunkServerService/AllocateInode",
   "/chunkserver.ChunkServerService/ReadSlice",
   "/chunkserver.ChunkServerService/WriteSlice",
@@ -32,30 +32,30 @@ std::unique_ptr< ChunkServerService::Stub> ChunkServerService::NewStub(const std
 }
 
 ChunkServerService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
-  : channel_(channel), rpcmethod_SetChunkStatus_(ChunkServerService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  : channel_(channel), rpcmethod_SetChunkState_(ChunkServerService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_AllocateInode_(ChunkServerService_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_ReadSlice_(ChunkServerService_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_WriteSlice_(ChunkServerService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status ChunkServerService::Stub::SetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::chunkserver::SetChunkStatusRsp* response) {
-  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_SetChunkStatus_, context, request, response);
+::grpc::Status ChunkServerService::Stub::SetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::chunkserver::SetChunkStateRsp* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_SetChunkState_, context, request, response);
 }
 
-void ChunkServerService::Stub::experimental_async::SetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SetChunkStatus_, context, request, response, std::move(f));
+void ChunkServerService::Stub::experimental_async::SetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SetChunkState_, context, request, response, std::move(f));
 }
 
-void ChunkServerService::Stub::experimental_async::SetChunkStatus(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkserver::SetChunkStatusRsp* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SetChunkStatus_, context, request, response, std::move(f));
+void ChunkServerService::Stub::experimental_async::SetChunkState(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkserver::SetChunkStateRsp* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SetChunkState_, context, request, response, std::move(f));
 }
 
-::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStatusRsp>* ChunkServerService::Stub::AsyncSetChunkStatusRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkserver::SetChunkStatusRsp>::Create(channel_.get(), cq, rpcmethod_SetChunkStatus_, context, request, true);
+::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStateRsp>* ChunkServerService::Stub::AsyncSetChunkStateRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkserver::SetChunkStateRsp>::Create(channel_.get(), cq, rpcmethod_SetChunkState_, context, request, true);
 }
 
-::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStatusRsp>* ChunkServerService::Stub::PrepareAsyncSetChunkStatusRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkserver::SetChunkStatusRsp>::Create(channel_.get(), cq, rpcmethod_SetChunkStatus_, context, request, false);
+::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStateRsp>* ChunkServerService::Stub::PrepareAsyncSetChunkStateRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkserver::SetChunkStateRsp>::Create(channel_.get(), cq, rpcmethod_SetChunkState_, context, request, false);
 }
 
 ::grpc::Status ChunkServerService::Stub::AllocateInode(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq& request, ::chunkserver::AllocateInodeRsp* response) {
@@ -122,8 +122,8 @@ ChunkServerService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ChunkServerService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< ChunkServerService::Service, ::chunkserver::SetChunkStatusReq, ::chunkserver::SetChunkStatusRsp>(
-          std::mem_fn(&ChunkServerService::Service::SetChunkStatus), this)));
+      new ::grpc::internal::RpcMethodHandler< ChunkServerService::Service, ::chunkserver::SetChunkStateReq, ::chunkserver::SetChunkStateRsp>(
+          std::mem_fn(&ChunkServerService::Service::SetChunkState), this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ChunkServerService_method_names[1],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
@@ -144,7 +144,7 @@ ChunkServerService::Service::Service() {
 ChunkServerService::Service::~Service() {
 }
 
-::grpc::Status ChunkServerService::Service::SetChunkStatus(::grpc::ServerContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response) {
+::grpc::Status ChunkServerService::Service::SetChunkState(::grpc::ServerContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response) {
   (void) context;
   (void) request;
   (void) response;

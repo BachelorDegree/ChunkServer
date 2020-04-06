@@ -20,16 +20,16 @@
 // @@protoc_insertion_point(includes)
 
 namespace chunkserver {
-class SetChunkStatusReqDefaultTypeInternal {
+class SetChunkStateReqDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<SetChunkStatusReq>
+  ::google::protobuf::internal::ExplicitlyConstructed<SetChunkStateReq>
       _instance;
-} _SetChunkStatusReq_default_instance_;
-class SetChunkStatusRspDefaultTypeInternal {
+} _SetChunkStateReq_default_instance_;
+class SetChunkStateRspDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<SetChunkStatusRsp>
+  ::google::protobuf::internal::ExplicitlyConstructed<SetChunkStateRsp>
       _instance;
-} _SetChunkStatusRsp_default_instance_;
+} _SetChunkStateRsp_default_instance_;
 class AllocateInodeReqDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<AllocateInodeReq>
@@ -62,33 +62,33 @@ class WriteSliceRspDefaultTypeInternal {
 } _WriteSliceRsp_default_instance_;
 }  // namespace chunkserver
 namespace protobuf_chunkserver_2eproto {
-static void InitDefaultsSetChunkStatusReq() {
+static void InitDefaultsSetChunkStateReq() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::chunkserver::_SetChunkStatusReq_default_instance_;
-    new (ptr) ::chunkserver::SetChunkStatusReq();
+    void* ptr = &::chunkserver::_SetChunkStateReq_default_instance_;
+    new (ptr) ::chunkserver::SetChunkStateReq();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::chunkserver::SetChunkStatusReq::InitAsDefaultInstance();
+  ::chunkserver::SetChunkStateReq::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_SetChunkStatusReq =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetChunkStatusReq}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_SetChunkStateReq =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetChunkStateReq}, {}};
 
-static void InitDefaultsSetChunkStatusRsp() {
+static void InitDefaultsSetChunkStateRsp() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::chunkserver::_SetChunkStatusRsp_default_instance_;
-    new (ptr) ::chunkserver::SetChunkStatusRsp();
+    void* ptr = &::chunkserver::_SetChunkStateRsp_default_instance_;
+    new (ptr) ::chunkserver::SetChunkStateRsp();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::chunkserver::SetChunkStatusRsp::InitAsDefaultInstance();
+  ::chunkserver::SetChunkStateRsp::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_SetChunkStatusRsp =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetChunkStatusRsp}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_SetChunkStateRsp =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsSetChunkStateRsp}, {}};
 
 static void InitDefaultsAllocateInodeReq() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -175,8 +175,8 @@ static void InitDefaultsWriteSliceRsp() {
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsWriteSliceRsp}, {}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_SetChunkStatusReq.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_SetChunkStatusRsp.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_SetChunkStateReq.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_SetChunkStateRsp.base);
   ::google::protobuf::internal::InitSCC(&scc_info_AllocateInodeReq.base);
   ::google::protobuf::internal::InitSCC(&scc_info_AllocateInodeRsp.base);
   ::google::protobuf::internal::InitSCC(&scc_info_ReadSliceReq.base);
@@ -189,14 +189,14 @@ void InitDefaults() {
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::SetChunkStatusReq, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::SetChunkStateReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::SetChunkStatusReq, chunk_id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::SetChunkStatusReq, status_to_set_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::SetChunkStateReq, chunk_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::SetChunkStateReq, state_to_set_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::SetChunkStatusRsp, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::chunkserver::SetChunkStateRsp, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
@@ -243,8 +243,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::chunkserver::SetChunkStatusReq)},
-  { 7, -1, sizeof(::chunkserver::SetChunkStatusRsp)},
+  { 0, -1, sizeof(::chunkserver::SetChunkStateReq)},
+  { 7, -1, sizeof(::chunkserver::SetChunkStateRsp)},
   { 12, -1, sizeof(::chunkserver::AllocateInodeReq)},
   { 19, -1, sizeof(::chunkserver::AllocateInodeRsp)},
   { 25, -1, sizeof(::chunkserver::ReadSliceReq)},
@@ -254,8 +254,8 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::chunkserver::_SetChunkStatusReq_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::chunkserver::_SetChunkStatusRsp_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::chunkserver::_SetChunkStateReq_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::chunkserver::_SetChunkStateRsp_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::chunkserver::_AllocateInodeReq_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::chunkserver::_AllocateInodeRsp_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::chunkserver::_ReadSliceReq_default_instance_),
@@ -285,28 +285,28 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\021chunkserver.proto\022\013chunkserver\"<\n\021SetC"
-      "hunkStatusReq\022\020\n\010chunk_id\030\001 \001(\004\022\025\n\rstatu"
-      "s_to_set\030\002 \001(\r\"\023\n\021SetChunkStatusRsp\"9\n\020A"
-      "llocateInodeReq\022\020\n\010chunk_id\030\001 \001(\004\022\023\n\013dat"
-      "a_length\030\002 \001(\r\"$\n\020AllocateInodeRsp\022\020\n\010sl"
-      "ice_id\030\001 \001(\004\"H\n\014ReadSliceReq\022\020\n\010slice_id"
-      "\030\001 \001(\004\022\016\n\006offset\030\002 \001(\r\022\026\n\016length_to_read"
-      "\030\003 \001(\r\"1\n\014ReadSliceRsp\022\023\n\013data_length\030\001 "
-      "\001(\r\022\014\n\004data\030\002 \001(\014\"\?\n\rWriteSliceReq\022\020\n\010sl"
-      "ice_id\030\001 \001(\004\022\016\n\006offset\030\002 \001(\r\022\014\n\004data\030\003 \001"
-      "(\014\"\017\n\rWriteSliceRsp2\276\002\n\022ChunkServerServi"
-      "ce\022P\n\016SetChunkStatus\022\036.chunkserver.SetCh"
-      "unkStatusReq\032\036.chunkserver.SetChunkStatu"
-      "sRsp\022M\n\rAllocateInode\022\035.chunkserver.Allo"
-      "cateInodeReq\032\035.chunkserver.AllocateInode"
-      "Rsp\022A\n\tReadSlice\022\031.chunkserver.ReadSlice"
-      "Req\032\031.chunkserver.ReadSliceRsp\022D\n\nWriteS"
-      "lice\022\032.chunkserver.WriteSliceReq\032\032.chunk"
-      "server.WriteSliceRspb\006proto3"
+      "\n\021chunkserver.proto\022\013chunkserver\":\n\020SetC"
+      "hunkStateReq\022\020\n\010chunk_id\030\001 \001(\004\022\024\n\014state_"
+      "to_set\030\002 \001(\r\"\022\n\020SetChunkStateRsp\"9\n\020Allo"
+      "cateInodeReq\022\020\n\010chunk_id\030\001 \001(\004\022\023\n\013data_l"
+      "ength\030\002 \001(\r\"$\n\020AllocateInodeRsp\022\020\n\010slice"
+      "_id\030\001 \001(\004\"H\n\014ReadSliceReq\022\020\n\010slice_id\030\001 "
+      "\001(\004\022\016\n\006offset\030\002 \001(\r\022\026\n\016length_to_read\030\003 "
+      "\001(\r\"1\n\014ReadSliceRsp\022\023\n\013data_length\030\001 \001(\r"
+      "\022\014\n\004data\030\002 \001(\014\"\?\n\rWriteSliceReq\022\020\n\010slice"
+      "_id\030\001 \001(\004\022\016\n\006offset\030\002 \001(\r\022\014\n\004data\030\003 \001(\014\""
+      "\017\n\rWriteSliceRsp2\273\002\n\022ChunkServerService\022"
+      "M\n\rSetChunkState\022\035.chunkserver.SetChunkS"
+      "tateReq\032\035.chunkserver.SetChunkStateRsp\022M"
+      "\n\rAllocateInode\022\035.chunkserver.AllocateIn"
+      "odeReq\032\035.chunkserver.AllocateInodeRsp\022A\n"
+      "\tReadSlice\022\031.chunkserver.ReadSliceReq\032\031."
+      "chunkserver.ReadSliceRsp\022D\n\nWriteSlice\022\032"
+      ".chunkserver.WriteSliceReq\032\032.chunkserver"
+      ".WriteSliceRspb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 748);
+      descriptor, 742);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "chunkserver.proto", &protobuf_RegisterTypes);
 }
@@ -326,75 +326,75 @@ namespace chunkserver {
 
 // ===================================================================
 
-void SetChunkStatusReq::InitAsDefaultInstance() {
+void SetChunkStateReq::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int SetChunkStatusReq::kChunkIdFieldNumber;
-const int SetChunkStatusReq::kStatusToSetFieldNumber;
+const int SetChunkStateReq::kChunkIdFieldNumber;
+const int SetChunkStateReq::kStateToSetFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-SetChunkStatusReq::SetChunkStatusReq()
+SetChunkStateReq::SetChunkStateReq()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_chunkserver_2eproto::scc_info_SetChunkStatusReq.base);
+      &protobuf_chunkserver_2eproto::scc_info_SetChunkStateReq.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(constructor:chunkserver.SetChunkStateReq)
 }
-SetChunkStatusReq::SetChunkStatusReq(const SetChunkStatusReq& from)
+SetChunkStateReq::SetChunkStateReq(const SetChunkStateReq& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&chunk_id_, &from.chunk_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&status_to_set_) -
-    reinterpret_cast<char*>(&chunk_id_)) + sizeof(status_to_set_));
-  // @@protoc_insertion_point(copy_constructor:chunkserver.SetChunkStatusReq)
+    static_cast<size_t>(reinterpret_cast<char*>(&state_to_set_) -
+    reinterpret_cast<char*>(&chunk_id_)) + sizeof(state_to_set_));
+  // @@protoc_insertion_point(copy_constructor:chunkserver.SetChunkStateReq)
 }
 
-void SetChunkStatusReq::SharedCtor() {
+void SetChunkStateReq::SharedCtor() {
   ::memset(&chunk_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&status_to_set_) -
-      reinterpret_cast<char*>(&chunk_id_)) + sizeof(status_to_set_));
+      reinterpret_cast<char*>(&state_to_set_) -
+      reinterpret_cast<char*>(&chunk_id_)) + sizeof(state_to_set_));
 }
 
-SetChunkStatusReq::~SetChunkStatusReq() {
-  // @@protoc_insertion_point(destructor:chunkserver.SetChunkStatusReq)
+SetChunkStateReq::~SetChunkStateReq() {
+  // @@protoc_insertion_point(destructor:chunkserver.SetChunkStateReq)
   SharedDtor();
 }
 
-void SetChunkStatusReq::SharedDtor() {
+void SetChunkStateReq::SharedDtor() {
 }
 
-void SetChunkStatusReq::SetCachedSize(int size) const {
+void SetChunkStateReq::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* SetChunkStatusReq::descriptor() {
+const ::google::protobuf::Descriptor* SetChunkStateReq::descriptor() {
   ::protobuf_chunkserver_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_chunkserver_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const SetChunkStatusReq& SetChunkStatusReq::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_chunkserver_2eproto::scc_info_SetChunkStatusReq.base);
+const SetChunkStateReq& SetChunkStateReq::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_chunkserver_2eproto::scc_info_SetChunkStateReq.base);
   return *internal_default_instance();
 }
 
 
-void SetChunkStatusReq::Clear() {
-// @@protoc_insertion_point(message_clear_start:chunkserver.SetChunkStatusReq)
+void SetChunkStateReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:chunkserver.SetChunkStateReq)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   ::memset(&chunk_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&status_to_set_) -
-      reinterpret_cast<char*>(&chunk_id_)) + sizeof(status_to_set_));
+      reinterpret_cast<char*>(&state_to_set_) -
+      reinterpret_cast<char*>(&chunk_id_)) + sizeof(state_to_set_));
   _internal_metadata_.Clear();
 }
 
-bool SetChunkStatusReq::MergePartialFromCodedStream(
+bool SetChunkStateReq::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(parse_start:chunkserver.SetChunkStateReq)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -414,14 +414,14 @@ bool SetChunkStatusReq::MergePartialFromCodedStream(
         break;
       }
 
-      // uint32 status_to_set = 2;
+      // uint32 state_to_set = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &status_to_set_)));
+                 input, &state_to_set_)));
         } else {
           goto handle_unusual;
         }
@@ -440,17 +440,17 @@ bool SetChunkStatusReq::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(parse_success:chunkserver.SetChunkStateReq)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(parse_failure:chunkserver.SetChunkStateReq)
   return false;
 #undef DO_
 }
 
-void SetChunkStatusReq::SerializeWithCachedSizes(
+void SetChunkStateReq::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(serialize_start:chunkserver.SetChunkStateReq)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -459,22 +459,22 @@ void SetChunkStatusReq::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->chunk_id(), output);
   }
 
-  // uint32 status_to_set = 2;
-  if (this->status_to_set() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->status_to_set(), output);
+  // uint32 state_to_set = 2;
+  if (this->state_to_set() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->state_to_set(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(serialize_end:chunkserver.SetChunkStateReq)
 }
 
-::google::protobuf::uint8* SetChunkStatusReq::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* SetChunkStateReq::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(serialize_to_array_start:chunkserver.SetChunkStateReq)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -483,21 +483,21 @@ void SetChunkStatusReq::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->chunk_id(), target);
   }
 
-  // uint32 status_to_set = 2;
-  if (this->status_to_set() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->status_to_set(), target);
+  // uint32 state_to_set = 2;
+  if (this->state_to_set() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->state_to_set(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(serialize_to_array_end:chunkserver.SetChunkStateReq)
   return target;
 }
 
-size_t SetChunkStatusReq::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:chunkserver.SetChunkStatusReq)
+size_t SetChunkStateReq::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:chunkserver.SetChunkStateReq)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -512,11 +512,11 @@ size_t SetChunkStatusReq::ByteSizeLong() const {
         this->chunk_id());
   }
 
-  // uint32 status_to_set = 2;
-  if (this->status_to_set() != 0) {
+  // uint32 state_to_set = 2;
+  if (this->state_to_set() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->status_to_set());
+        this->state_to_set());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -524,23 +524,23 @@ size_t SetChunkStatusReq::ByteSizeLong() const {
   return total_size;
 }
 
-void SetChunkStatusReq::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:chunkserver.SetChunkStatusReq)
+void SetChunkStateReq::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:chunkserver.SetChunkStateReq)
   GOOGLE_DCHECK_NE(&from, this);
-  const SetChunkStatusReq* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const SetChunkStatusReq>(
+  const SetChunkStateReq* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SetChunkStateReq>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chunkserver.SetChunkStateReq)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:chunkserver.SetChunkStateReq)
     MergeFrom(*source);
   }
 }
 
-void SetChunkStatusReq::MergeFrom(const SetChunkStatusReq& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:chunkserver.SetChunkStatusReq)
+void SetChunkStateReq::MergeFrom(const SetChunkStateReq& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:chunkserver.SetChunkStateReq)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -549,41 +549,41 @@ void SetChunkStatusReq::MergeFrom(const SetChunkStatusReq& from) {
   if (from.chunk_id() != 0) {
     set_chunk_id(from.chunk_id());
   }
-  if (from.status_to_set() != 0) {
-    set_status_to_set(from.status_to_set());
+  if (from.state_to_set() != 0) {
+    set_state_to_set(from.state_to_set());
   }
 }
 
-void SetChunkStatusReq::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:chunkserver.SetChunkStatusReq)
+void SetChunkStateReq::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:chunkserver.SetChunkStateReq)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void SetChunkStatusReq::CopyFrom(const SetChunkStatusReq& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:chunkserver.SetChunkStatusReq)
+void SetChunkStateReq::CopyFrom(const SetChunkStateReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:chunkserver.SetChunkStateReq)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool SetChunkStatusReq::IsInitialized() const {
+bool SetChunkStateReq::IsInitialized() const {
   return true;
 }
 
-void SetChunkStatusReq::Swap(SetChunkStatusReq* other) {
+void SetChunkStateReq::Swap(SetChunkStateReq* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void SetChunkStatusReq::InternalSwap(SetChunkStatusReq* other) {
+void SetChunkStateReq::InternalSwap(SetChunkStateReq* other) {
   using std::swap;
   swap(chunk_id_, other->chunk_id_);
-  swap(status_to_set_, other->status_to_set_);
+  swap(state_to_set_, other->state_to_set_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata SetChunkStatusReq::GetMetadata() const {
+::google::protobuf::Metadata SetChunkStateReq::GetMetadata() const {
   protobuf_chunkserver_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_chunkserver_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -591,52 +591,52 @@ void SetChunkStatusReq::InternalSwap(SetChunkStatusReq* other) {
 
 // ===================================================================
 
-void SetChunkStatusRsp::InitAsDefaultInstance() {
+void SetChunkStateRsp::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-SetChunkStatusRsp::SetChunkStatusRsp()
+SetChunkStateRsp::SetChunkStateRsp()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_chunkserver_2eproto::scc_info_SetChunkStatusRsp.base);
+      &protobuf_chunkserver_2eproto::scc_info_SetChunkStateRsp.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(constructor:chunkserver.SetChunkStateRsp)
 }
-SetChunkStatusRsp::SetChunkStatusRsp(const SetChunkStatusRsp& from)
+SetChunkStateRsp::SetChunkStateRsp(const SetChunkStateRsp& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(copy_constructor:chunkserver.SetChunkStateRsp)
 }
 
-void SetChunkStatusRsp::SharedCtor() {
+void SetChunkStateRsp::SharedCtor() {
 }
 
-SetChunkStatusRsp::~SetChunkStatusRsp() {
-  // @@protoc_insertion_point(destructor:chunkserver.SetChunkStatusRsp)
+SetChunkStateRsp::~SetChunkStateRsp() {
+  // @@protoc_insertion_point(destructor:chunkserver.SetChunkStateRsp)
   SharedDtor();
 }
 
-void SetChunkStatusRsp::SharedDtor() {
+void SetChunkStateRsp::SharedDtor() {
 }
 
-void SetChunkStatusRsp::SetCachedSize(int size) const {
+void SetChunkStateRsp::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* SetChunkStatusRsp::descriptor() {
+const ::google::protobuf::Descriptor* SetChunkStateRsp::descriptor() {
   ::protobuf_chunkserver_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_chunkserver_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const SetChunkStatusRsp& SetChunkStatusRsp::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_chunkserver_2eproto::scc_info_SetChunkStatusRsp.base);
+const SetChunkStateRsp& SetChunkStateRsp::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_chunkserver_2eproto::scc_info_SetChunkStateRsp.base);
   return *internal_default_instance();
 }
 
 
-void SetChunkStatusRsp::Clear() {
-// @@protoc_insertion_point(message_clear_start:chunkserver.SetChunkStatusRsp)
+void SetChunkStateRsp::Clear() {
+// @@protoc_insertion_point(message_clear_start:chunkserver.SetChunkStateRsp)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -644,11 +644,11 @@ void SetChunkStatusRsp::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool SetChunkStatusRsp::MergePartialFromCodedStream(
+bool SetChunkStateRsp::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(parse_start:chunkserver.SetChunkStateRsp)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -661,17 +661,17 @@ bool SetChunkStatusRsp::MergePartialFromCodedStream(
           input, tag, _internal_metadata_.mutable_unknown_fields()));
   }
 success:
-  // @@protoc_insertion_point(parse_success:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(parse_success:chunkserver.SetChunkStateRsp)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(parse_failure:chunkserver.SetChunkStateRsp)
   return false;
 #undef DO_
 }
 
-void SetChunkStatusRsp::SerializeWithCachedSizes(
+void SetChunkStateRsp::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(serialize_start:chunkserver.SetChunkStateRsp)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -679,13 +679,13 @@ void SetChunkStatusRsp::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(serialize_end:chunkserver.SetChunkStateRsp)
 }
 
-::google::protobuf::uint8* SetChunkStatusRsp::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* SetChunkStateRsp::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(serialize_to_array_start:chunkserver.SetChunkStateRsp)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -693,12 +693,12 @@ void SetChunkStatusRsp::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(serialize_to_array_end:chunkserver.SetChunkStateRsp)
   return target;
 }
 
-size_t SetChunkStatusRsp::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:chunkserver.SetChunkStatusRsp)
+size_t SetChunkStateRsp::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:chunkserver.SetChunkStateRsp)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -711,23 +711,23 @@ size_t SetChunkStatusRsp::ByteSizeLong() const {
   return total_size;
 }
 
-void SetChunkStatusRsp::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:chunkserver.SetChunkStatusRsp)
+void SetChunkStateRsp::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:chunkserver.SetChunkStateRsp)
   GOOGLE_DCHECK_NE(&from, this);
-  const SetChunkStatusRsp* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const SetChunkStatusRsp>(
+  const SetChunkStateRsp* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const SetChunkStateRsp>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:chunkserver.SetChunkStateRsp)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:chunkserver.SetChunkStateRsp)
     MergeFrom(*source);
   }
 }
 
-void SetChunkStatusRsp::MergeFrom(const SetChunkStatusRsp& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:chunkserver.SetChunkStatusRsp)
+void SetChunkStateRsp::MergeFrom(const SetChunkStateRsp& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:chunkserver.SetChunkStateRsp)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -735,34 +735,34 @@ void SetChunkStatusRsp::MergeFrom(const SetChunkStatusRsp& from) {
 
 }
 
-void SetChunkStatusRsp::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:chunkserver.SetChunkStatusRsp)
+void SetChunkStateRsp::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:chunkserver.SetChunkStateRsp)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void SetChunkStatusRsp::CopyFrom(const SetChunkStatusRsp& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:chunkserver.SetChunkStatusRsp)
+void SetChunkStateRsp::CopyFrom(const SetChunkStateRsp& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:chunkserver.SetChunkStateRsp)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool SetChunkStatusRsp::IsInitialized() const {
+bool SetChunkStateRsp::IsInitialized() const {
   return true;
 }
 
-void SetChunkStatusRsp::Swap(SetChunkStatusRsp* other) {
+void SetChunkStateRsp::Swap(SetChunkStateRsp* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void SetChunkStatusRsp::InternalSwap(SetChunkStatusRsp* other) {
+void SetChunkStateRsp::InternalSwap(SetChunkStateRsp* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata SetChunkStatusRsp::GetMetadata() const {
+::google::protobuf::Metadata SetChunkStateRsp::GetMetadata() const {
   protobuf_chunkserver_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_chunkserver_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -2320,11 +2320,11 @@ void WriteSliceRsp::InternalSwap(WriteSliceRsp* other) {
 }  // namespace chunkserver
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::chunkserver::SetChunkStatusReq* Arena::CreateMaybeMessage< ::chunkserver::SetChunkStatusReq >(Arena* arena) {
-  return Arena::CreateInternal< ::chunkserver::SetChunkStatusReq >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::chunkserver::SetChunkStateReq* Arena::CreateMaybeMessage< ::chunkserver::SetChunkStateReq >(Arena* arena) {
+  return Arena::CreateInternal< ::chunkserver::SetChunkStateReq >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::chunkserver::SetChunkStatusRsp* Arena::CreateMaybeMessage< ::chunkserver::SetChunkStatusRsp >(Arena* arena) {
-  return Arena::CreateInternal< ::chunkserver::SetChunkStatusRsp >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::chunkserver::SetChunkStateRsp* Arena::CreateMaybeMessage< ::chunkserver::SetChunkStateRsp >(Arena* arena) {
+  return Arena::CreateInternal< ::chunkserver::SetChunkStateRsp >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::chunkserver::AllocateInodeReq* Arena::CreateMaybeMessage< ::chunkserver::AllocateInodeReq >(Arena* arena) {
   return Arena::CreateInternal< ::chunkserver::AllocateInodeReq >(arena);

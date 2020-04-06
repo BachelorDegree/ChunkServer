@@ -19,6 +19,7 @@ struct ChunkInfo
     uint32_t NextInode;
     uint32_t LogicalUsedSpace;
     uint32_t ActualUsedSpace;
+    uint32_t State;
     libco::CoMutex *Mutex;
     DiskInfo* DiskInfoPtr;
     explicit ChunkInfo(DiskInfo* pParent = nullptr);

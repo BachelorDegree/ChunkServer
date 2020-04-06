@@ -1,33 +1,32 @@
-#include <colib/co_aio.h>
 #include <spdlog/spdlog.h>
 #include "coredeps/SliceId.hpp"
 
 #include "errcode.h"
-#include "../Logic/Logic.hpp"
-#include "../Logic/InodeLruCache.hpp"
+#include "Logic/Logic.hpp"
 
-#include "WriteSliceHandler.hpp"
+#include "SetChunkStateHandler.hpp"
 #include "ChunkServerServiceImpl.hpp"
 
-void WriteSliceHandler::SetInterfaceName(void)
+void SetChunkStateHandler::SetInterfaceName(void)
 {
-    interfaceName = "ChunkServerService.WriteSlice";
+    interfaceName = "ChunkServerService.SetChunkState";
 }
 
-void WriteSliceHandler::Proceed(void)
+void SetChunkStateHandler::Proceed(void)
 {
     switch (status)
     {
     case Status::CREATE:
         this->SetStatusProcess();
-        service->RequestWriteSlice(&ctx, &request, &responder, cq, cq, this);
+        service->RequestSetChunkState(&ctx, &request, &responder, cq, cq, this);
         break;
     case Status::PROCESS:
     {
         // Firstly, spawn a new handler for next incoming RPC call
-        new WriteSliceHandler(service, cq);
+        new SetChunkStateHandler(service, cq);
         this->BeforeProcess();
         // Implement your logic here
+        // int iRet = ChunkServerServiceImpl::GetInstance()->SetChunkState(request, response);
         int iRet = this->Implementation();
         this->SetReturnCode(iRet);
         this->SetStatusFinish();
@@ -43,11 +42,10 @@ void WriteSliceHandler::Proceed(void)
     }
 }
 
-int WriteSliceHandler::Implementation(void)
+int SetChunkStateHandler::Implementation(void)
 {
     int iRet = 0;
-    ssize_t iPwriteRet;
-    Storage::SliceId oSliceId(request.slice_id());
+    Storage::SliceId oSliceId(request.chunk_id());
     do
     {
         if (oSliceId.Cluster() != g_iClusterId 
@@ -65,27 +63,15 @@ int WriteSliceHandler::Implementation(void)
             break;
         }
         auto &oChunkInfo = oDiskInfo.Chunks[oSliceId.Chunk()];
-        auto oInode = InodeLruCache::GetInstance().Get(oSliceId.UInt());
-        if (request.offset() >= oInode.LogicalLength)
-        {
-            iRet = E_OFFSET_OUT_OF_RANGE;
-            break;
-        }
-        if (request.offset() + request.data().length() >= oInode.LogicalLength)
-        {
-            iRet = E_DATA_LENGTH_OUT_OF_RANGE;
-            break;
-        }
         CoMutexGuard oGuard(oChunkInfo.Mutex);
-        auto iOffset = oChunkInfo.GetDataSectionOffset() + oInode.Offset + request.offset();
-        iPwriteRet = co_pwrite(oChunkInfo.DiskInfoPtr->Fd, (void*)request.data().data(), request.data().size(), iOffset);
+        oChunkInfo.State = request.state_to_set();
+        auto iPwriteRet = oChunkInfo.FlushToDisk();
         if (iPwriteRet < 0)
         {
-            iRet = E_PWRITE_FAILED;
-            spdlog::error("WriteSliceHandler - co_pwrite() failed, errno: {}", iPwriteRet);
-            break;
+            spdlog::error("SetChunkState - flush to disk error, errno: {}", iPwriteRet);
+            return E_FLUSH_CHUNK_HEADER_FAILED;
         }
     } while (false);
-    spdlog::info("WriteSliceHandler - slice_id: 0x{:016x}, data_length: {}, ret: {}", request.slice_id(), request.data().length(), iRet);
+    spdlog::info("SetChunkState - chunk_id: 0x{:016x}, state: {}", request.chunk_id(), request.state_to_set());
     return iRet;
 }

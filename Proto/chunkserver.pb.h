@@ -58,12 +58,12 @@ extern ReadSliceReqDefaultTypeInternal _ReadSliceReq_default_instance_;
 class ReadSliceRsp;
 class ReadSliceRspDefaultTypeInternal;
 extern ReadSliceRspDefaultTypeInternal _ReadSliceRsp_default_instance_;
-class SetChunkStatusReq;
-class SetChunkStatusReqDefaultTypeInternal;
-extern SetChunkStatusReqDefaultTypeInternal _SetChunkStatusReq_default_instance_;
-class SetChunkStatusRsp;
-class SetChunkStatusRspDefaultTypeInternal;
-extern SetChunkStatusRspDefaultTypeInternal _SetChunkStatusRsp_default_instance_;
+class SetChunkStateReq;
+class SetChunkStateReqDefaultTypeInternal;
+extern SetChunkStateReqDefaultTypeInternal _SetChunkStateReq_default_instance_;
+class SetChunkStateRsp;
+class SetChunkStateRspDefaultTypeInternal;
+extern SetChunkStateRspDefaultTypeInternal _SetChunkStateRsp_default_instance_;
 class WriteSliceReq;
 class WriteSliceReqDefaultTypeInternal;
 extern WriteSliceReqDefaultTypeInternal _WriteSliceReq_default_instance_;
@@ -77,8 +77,8 @@ template<> ::chunkserver::AllocateInodeReq* Arena::CreateMaybeMessage<::chunkser
 template<> ::chunkserver::AllocateInodeRsp* Arena::CreateMaybeMessage<::chunkserver::AllocateInodeRsp>(Arena*);
 template<> ::chunkserver::ReadSliceReq* Arena::CreateMaybeMessage<::chunkserver::ReadSliceReq>(Arena*);
 template<> ::chunkserver::ReadSliceRsp* Arena::CreateMaybeMessage<::chunkserver::ReadSliceRsp>(Arena*);
-template<> ::chunkserver::SetChunkStatusReq* Arena::CreateMaybeMessage<::chunkserver::SetChunkStatusReq>(Arena*);
-template<> ::chunkserver::SetChunkStatusRsp* Arena::CreateMaybeMessage<::chunkserver::SetChunkStatusRsp>(Arena*);
+template<> ::chunkserver::SetChunkStateReq* Arena::CreateMaybeMessage<::chunkserver::SetChunkStateReq>(Arena*);
+template<> ::chunkserver::SetChunkStateRsp* Arena::CreateMaybeMessage<::chunkserver::SetChunkStateRsp>(Arena*);
 template<> ::chunkserver::WriteSliceReq* Arena::CreateMaybeMessage<::chunkserver::WriteSliceReq>(Arena*);
 template<> ::chunkserver::WriteSliceRsp* Arena::CreateMaybeMessage<::chunkserver::WriteSliceRsp>(Arena*);
 }  // namespace protobuf
@@ -87,24 +87,24 @@ namespace chunkserver {
 
 // ===================================================================
 
-class SetChunkStatusReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chunkserver.SetChunkStatusReq) */ {
+class SetChunkStateReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chunkserver.SetChunkStateReq) */ {
  public:
-  SetChunkStatusReq();
-  virtual ~SetChunkStatusReq();
+  SetChunkStateReq();
+  virtual ~SetChunkStateReq();
 
-  SetChunkStatusReq(const SetChunkStatusReq& from);
+  SetChunkStateReq(const SetChunkStateReq& from);
 
-  inline SetChunkStatusReq& operator=(const SetChunkStatusReq& from) {
+  inline SetChunkStateReq& operator=(const SetChunkStateReq& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  SetChunkStatusReq(SetChunkStatusReq&& from) noexcept
-    : SetChunkStatusReq() {
+  SetChunkStateReq(SetChunkStateReq&& from) noexcept
+    : SetChunkStateReq() {
     *this = ::std::move(from);
   }
 
-  inline SetChunkStatusReq& operator=(SetChunkStatusReq&& from) noexcept {
+  inline SetChunkStateReq& operator=(SetChunkStateReq&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -114,34 +114,34 @@ class SetChunkStatusReq : public ::google::protobuf::Message /* @@protoc_inserti
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const SetChunkStatusReq& default_instance();
+  static const SetChunkStateReq& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SetChunkStatusReq* internal_default_instance() {
-    return reinterpret_cast<const SetChunkStatusReq*>(
-               &_SetChunkStatusReq_default_instance_);
+  static inline const SetChunkStateReq* internal_default_instance() {
+    return reinterpret_cast<const SetChunkStateReq*>(
+               &_SetChunkStateReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(SetChunkStatusReq* other);
-  friend void swap(SetChunkStatusReq& a, SetChunkStatusReq& b) {
+  void Swap(SetChunkStateReq* other);
+  friend void swap(SetChunkStateReq& a, SetChunkStateReq& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline SetChunkStatusReq* New() const final {
-    return CreateMaybeMessage<SetChunkStatusReq>(NULL);
+  inline SetChunkStateReq* New() const final {
+    return CreateMaybeMessage<SetChunkStateReq>(NULL);
   }
 
-  SetChunkStatusReq* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<SetChunkStatusReq>(arena);
+  SetChunkStateReq* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<SetChunkStateReq>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const SetChunkStatusReq& from);
-  void MergeFrom(const SetChunkStatusReq& from);
+  void CopyFrom(const SetChunkStateReq& from);
+  void MergeFrom(const SetChunkStateReq& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -158,7 +158,7 @@ class SetChunkStatusReq : public ::google::protobuf::Message /* @@protoc_inserti
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(SetChunkStatusReq* other);
+  void InternalSwap(SetChunkStateReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -180,41 +180,41 @@ class SetChunkStatusReq : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::uint64 chunk_id() const;
   void set_chunk_id(::google::protobuf::uint64 value);
 
-  // uint32 status_to_set = 2;
-  void clear_status_to_set();
-  static const int kStatusToSetFieldNumber = 2;
-  ::google::protobuf::uint32 status_to_set() const;
-  void set_status_to_set(::google::protobuf::uint32 value);
+  // uint32 state_to_set = 2;
+  void clear_state_to_set();
+  static const int kStateToSetFieldNumber = 2;
+  ::google::protobuf::uint32 state_to_set() const;
+  void set_state_to_set(::google::protobuf::uint32 value);
 
-  // @@protoc_insertion_point(class_scope:chunkserver.SetChunkStatusReq)
+  // @@protoc_insertion_point(class_scope:chunkserver.SetChunkStateReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint64 chunk_id_;
-  ::google::protobuf::uint32 status_to_set_;
+  ::google::protobuf::uint32 state_to_set_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_chunkserver_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class SetChunkStatusRsp : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chunkserver.SetChunkStatusRsp) */ {
+class SetChunkStateRsp : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:chunkserver.SetChunkStateRsp) */ {
  public:
-  SetChunkStatusRsp();
-  virtual ~SetChunkStatusRsp();
+  SetChunkStateRsp();
+  virtual ~SetChunkStateRsp();
 
-  SetChunkStatusRsp(const SetChunkStatusRsp& from);
+  SetChunkStateRsp(const SetChunkStateRsp& from);
 
-  inline SetChunkStatusRsp& operator=(const SetChunkStatusRsp& from) {
+  inline SetChunkStateRsp& operator=(const SetChunkStateRsp& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  SetChunkStatusRsp(SetChunkStatusRsp&& from) noexcept
-    : SetChunkStatusRsp() {
+  SetChunkStateRsp(SetChunkStateRsp&& from) noexcept
+    : SetChunkStateRsp() {
     *this = ::std::move(from);
   }
 
-  inline SetChunkStatusRsp& operator=(SetChunkStatusRsp&& from) noexcept {
+  inline SetChunkStateRsp& operator=(SetChunkStateRsp&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -224,34 +224,34 @@ class SetChunkStatusRsp : public ::google::protobuf::Message /* @@protoc_inserti
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const SetChunkStatusRsp& default_instance();
+  static const SetChunkStateRsp& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SetChunkStatusRsp* internal_default_instance() {
-    return reinterpret_cast<const SetChunkStatusRsp*>(
-               &_SetChunkStatusRsp_default_instance_);
+  static inline const SetChunkStateRsp* internal_default_instance() {
+    return reinterpret_cast<const SetChunkStateRsp*>(
+               &_SetChunkStateRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  void Swap(SetChunkStatusRsp* other);
-  friend void swap(SetChunkStatusRsp& a, SetChunkStatusRsp& b) {
+  void Swap(SetChunkStateRsp* other);
+  friend void swap(SetChunkStateRsp& a, SetChunkStateRsp& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline SetChunkStatusRsp* New() const final {
-    return CreateMaybeMessage<SetChunkStatusRsp>(NULL);
+  inline SetChunkStateRsp* New() const final {
+    return CreateMaybeMessage<SetChunkStateRsp>(NULL);
   }
 
-  SetChunkStatusRsp* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<SetChunkStatusRsp>(arena);
+  SetChunkStateRsp* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<SetChunkStateRsp>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const SetChunkStatusRsp& from);
-  void MergeFrom(const SetChunkStatusRsp& from);
+  void CopyFrom(const SetChunkStateRsp& from);
+  void MergeFrom(const SetChunkStateRsp& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -268,7 +268,7 @@ class SetChunkStatusRsp : public ::google::protobuf::Message /* @@protoc_inserti
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(SetChunkStatusRsp* other);
+  void InternalSwap(SetChunkStateRsp* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -284,7 +284,7 @@ class SetChunkStatusRsp : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:chunkserver.SetChunkStatusRsp)
+  // @@protoc_insertion_point(class_scope:chunkserver.SetChunkStateRsp)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -969,39 +969,39 @@ class WriteSliceRsp : public ::google::protobuf::Message /* @@protoc_insertion_p
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// SetChunkStatusReq
+// SetChunkStateReq
 
 // uint64 chunk_id = 1;
-inline void SetChunkStatusReq::clear_chunk_id() {
+inline void SetChunkStateReq::clear_chunk_id() {
   chunk_id_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 SetChunkStatusReq::chunk_id() const {
-  // @@protoc_insertion_point(field_get:chunkserver.SetChunkStatusReq.chunk_id)
+inline ::google::protobuf::uint64 SetChunkStateReq::chunk_id() const {
+  // @@protoc_insertion_point(field_get:chunkserver.SetChunkStateReq.chunk_id)
   return chunk_id_;
 }
-inline void SetChunkStatusReq::set_chunk_id(::google::protobuf::uint64 value) {
+inline void SetChunkStateReq::set_chunk_id(::google::protobuf::uint64 value) {
   
   chunk_id_ = value;
-  // @@protoc_insertion_point(field_set:chunkserver.SetChunkStatusReq.chunk_id)
+  // @@protoc_insertion_point(field_set:chunkserver.SetChunkStateReq.chunk_id)
 }
 
-// uint32 status_to_set = 2;
-inline void SetChunkStatusReq::clear_status_to_set() {
-  status_to_set_ = 0u;
+// uint32 state_to_set = 2;
+inline void SetChunkStateReq::clear_state_to_set() {
+  state_to_set_ = 0u;
 }
-inline ::google::protobuf::uint32 SetChunkStatusReq::status_to_set() const {
-  // @@protoc_insertion_point(field_get:chunkserver.SetChunkStatusReq.status_to_set)
-  return status_to_set_;
+inline ::google::protobuf::uint32 SetChunkStateReq::state_to_set() const {
+  // @@protoc_insertion_point(field_get:chunkserver.SetChunkStateReq.state_to_set)
+  return state_to_set_;
 }
-inline void SetChunkStatusReq::set_status_to_set(::google::protobuf::uint32 value) {
+inline void SetChunkStateReq::set_state_to_set(::google::protobuf::uint32 value) {
   
-  status_to_set_ = value;
-  // @@protoc_insertion_point(field_set:chunkserver.SetChunkStatusReq.status_to_set)
+  state_to_set_ = value;
+  // @@protoc_insertion_point(field_set:chunkserver.SetChunkStateReq.state_to_set)
 }
 
 // -------------------------------------------------------------------
 
-// SetChunkStatusRsp
+// SetChunkStateRsp
 
 // -------------------------------------------------------------------
 

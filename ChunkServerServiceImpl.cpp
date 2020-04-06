@@ -1,5 +1,5 @@
 #include "ChunkServerServiceImpl.hpp"
-int ChunkServerServiceImpl::SetChunkStatus(const ::chunkserver::SetChunkStatusReq & oReq, ::chunkserver::SetChunkStatusRsp & oResp) {
+int ChunkServerServiceImpl::SetChunkState(const ::chunkserver::SetChunkStateReq & oReq, ::chunkserver::SetChunkStateRsp & oResp) {
     return -1;
 }
 int ChunkServerServiceImpl::AllocateInode(const ::chunkserver::AllocateInodeReq & oReq, ::chunkserver::AllocateInodeRsp & oResp) {

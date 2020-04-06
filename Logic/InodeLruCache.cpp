@@ -59,7 +59,7 @@ static uint64_t CalculateFirstSliceIn4kBlock(uint64_t uSliceId)
 static ssize_t Read4KInodes(uint64_t iStartSlice, void *pDest)
 {
     Storage::SliceId oSid(iStartSlice);
-    auto oChunkInfo = GDiskInfo[oSid.Disk()].Chunks[oSid.Chunk()];
+    auto oChunkInfo = g_apDiskInfo[oSid.Disk()].Chunks[oSid.Chunk()];
     auto uOffset = oChunkInfo.GetInodeOffset(oSid.Slice());
     CoMutexGuard guard(oChunkInfo.DiskInfoPtr->Mutex);
     auto iRet = co_pread(oChunkInfo.DiskInfoPtr->Fd, pDest, FourKiB, uOffset);

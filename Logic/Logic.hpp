@@ -5,8 +5,8 @@
 #include "coredeps/TfcConfigCodec.hpp"
 
 extern AlohaIO::TfcConfigCodec LibConf;
-extern uint64_t GClusterId, GMachineId;
-extern uint32_t GDiskCount;
-extern DiskInfo* GDiskInfo;
+extern uint64_t g_iClusterId, g_iMachineId;
+extern uint32_t g_iDiskCount;
+extern DiskInfo* g_apDiskInfo;
 
-void DoInitialize(const char *conf_file);
+void DoInitialize(const char *);

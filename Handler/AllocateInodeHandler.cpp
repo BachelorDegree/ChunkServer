@@ -1,9 +1,12 @@
+#include <spdlog/spdlog.h>
+#include <coredeps/SliceId.hpp>
+
+#include "errcode.h"
+#include "define.hpp"
+#include "Logic/Logic.hpp"
+
 #include "AllocateInodeHandler.hpp"
 #include "ChunkServerServiceImpl.hpp"
-#include "coredeps/SliceId.hpp"
-#include "../define.hpp"
-#include "../Logic/Logic.hpp"
-#include "spdlog/spdlog.h"
 
 void AllocateInodeHandler::SetInterfaceName(void)
 {
@@ -46,15 +49,15 @@ int AllocateInodeHandler::Implementation(void)
     auto oRetSliceId = oSliceId;
     do
     {
-        if (oSliceId.Cluster() != GClusterId 
-            || oSliceId.Machine() != GMachineId
-            || oSliceId.Disk() >= GDiskCount
+        if (oSliceId.Cluster() != g_iClusterId 
+            || oSliceId.Machine() != g_iMachineId
+            || oSliceId.Disk() >= g_iDiskCount
         )
         {
             iRet = E_DISK_NOT_ON_THIS_MACHINE;
             break;
         }
-        auto &oDiskInfo = GDiskInfo[oSliceId.Disk()];
+        auto &oDiskInfo = g_apDiskInfo[oSliceId.Disk()];
         if (oSliceId.Chunk() >= static_cast<uint64_t>(oDiskInfo.ChunkCount))
         {
             iRet = E_CHUNK_ID_OUT_OF_RANGE;

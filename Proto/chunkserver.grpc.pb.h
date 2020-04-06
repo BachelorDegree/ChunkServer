@@ -38,12 +38,12 @@ class ChunkServerService final {
    public:
     virtual ~StubInterface() {}
     // rpc  (Req) returns (Rsp);
-    virtual ::grpc::Status SetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::chunkserver::SetChunkStatusRsp* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStatusRsp>> AsyncSetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStatusRsp>>(AsyncSetChunkStatusRaw(context, request, cq));
+    virtual ::grpc::Status SetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::chunkserver::SetChunkStateRsp* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStateRsp>> AsyncSetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStateRsp>>(AsyncSetChunkStateRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStatusRsp>> PrepareAsyncSetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStatusRsp>>(PrepareAsyncSetChunkStatusRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStateRsp>> PrepareAsyncSetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStateRsp>>(PrepareAsyncSetChunkStateRaw(context, request, cq));
     }
     virtual ::grpc::Status AllocateInode(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq& request, ::chunkserver::AllocateInodeRsp* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::AllocateInodeRsp>> AsyncAllocateInode(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq& request, ::grpc::CompletionQueue* cq) {
@@ -70,8 +70,8 @@ class ChunkServerService final {
      public:
       virtual ~experimental_async_interface() {}
       // rpc  (Req) returns (Rsp);
-      virtual void SetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void SetChunkStatus(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkserver::SetChunkStatusRsp* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SetChunkState(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkserver::SetChunkStateRsp* response, std::function<void(::grpc::Status)>) = 0;
       virtual void AllocateInode(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq* request, ::chunkserver::AllocateInodeRsp* response, std::function<void(::grpc::Status)>) = 0;
       virtual void AllocateInode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkserver::AllocateInodeRsp* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ReadSlice(::grpc::ClientContext* context, const ::chunkserver::ReadSliceReq* request, ::chunkserver::ReadSliceRsp* response, std::function<void(::grpc::Status)>) = 0;
@@ -81,8 +81,8 @@ class ChunkServerService final {
     };
     virtual class experimental_async_interface* experimental_async() { return nullptr; }
   private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStatusRsp>* AsyncSetChunkStatusRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStatusRsp>* PrepareAsyncSetChunkStatusRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStateRsp>* AsyncSetChunkStateRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::SetChunkStateRsp>* PrepareAsyncSetChunkStateRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::AllocateInodeRsp>* AsyncAllocateInodeRaw(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::AllocateInodeRsp>* PrepareAsyncAllocateInodeRaw(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::chunkserver::ReadSliceRsp>* AsyncReadSliceRaw(::grpc::ClientContext* context, const ::chunkserver::ReadSliceReq& request, ::grpc::CompletionQueue* cq) = 0;
@@ -93,12 +93,12 @@ class ChunkServerService final {
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    ::grpc::Status SetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::chunkserver::SetChunkStatusRsp* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStatusRsp>> AsyncSetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStatusRsp>>(AsyncSetChunkStatusRaw(context, request, cq));
+    ::grpc::Status SetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::chunkserver::SetChunkStateRsp* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStateRsp>> AsyncSetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStateRsp>>(AsyncSetChunkStateRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStatusRsp>> PrepareAsyncSetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStatusRsp>>(PrepareAsyncSetChunkStatusRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStateRsp>> PrepareAsyncSetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStateRsp>>(PrepareAsyncSetChunkStateRaw(context, request, cq));
     }
     ::grpc::Status AllocateInode(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq& request, ::chunkserver::AllocateInodeRsp* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::chunkserver::AllocateInodeRsp>> AsyncAllocateInode(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq& request, ::grpc::CompletionQueue* cq) {
@@ -124,8 +124,8 @@ class ChunkServerService final {
     class experimental_async final :
       public StubInterface::experimental_async_interface {
      public:
-      void SetChunkStatus(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response, std::function<void(::grpc::Status)>) override;
-      void SetChunkStatus(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkserver::SetChunkStatusRsp* response, std::function<void(::grpc::Status)>) override;
+      void SetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response, std::function<void(::grpc::Status)>) override;
+      void SetChunkState(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkserver::SetChunkStateRsp* response, std::function<void(::grpc::Status)>) override;
       void AllocateInode(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq* request, ::chunkserver::AllocateInodeRsp* response, std::function<void(::grpc::Status)>) override;
       void AllocateInode(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkserver::AllocateInodeRsp* response, std::function<void(::grpc::Status)>) override;
       void ReadSlice(::grpc::ClientContext* context, const ::chunkserver::ReadSliceReq* request, ::chunkserver::ReadSliceRsp* response, std::function<void(::grpc::Status)>) override;
@@ -143,15 +143,15 @@ class ChunkServerService final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class experimental_async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStatusRsp>* AsyncSetChunkStatusRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStatusRsp>* PrepareAsyncSetChunkStatusRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStatusReq& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStateRsp>* AsyncSetChunkStateRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::chunkserver::SetChunkStateRsp>* PrepareAsyncSetChunkStateRaw(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::chunkserver::AllocateInodeRsp>* AsyncAllocateInodeRaw(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::chunkserver::AllocateInodeRsp>* PrepareAsyncAllocateInodeRaw(::grpc::ClientContext* context, const ::chunkserver::AllocateInodeReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::chunkserver::ReadSliceRsp>* AsyncReadSliceRaw(::grpc::ClientContext* context, const ::chunkserver::ReadSliceReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::chunkserver::ReadSliceRsp>* PrepareAsyncReadSliceRaw(::grpc::ClientContext* context, const ::chunkserver::ReadSliceReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::chunkserver::WriteSliceRsp>* AsyncWriteSliceRaw(::grpc::ClientContext* context, const ::chunkserver::WriteSliceReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::chunkserver::WriteSliceRsp>* PrepareAsyncWriteSliceRaw(::grpc::ClientContext* context, const ::chunkserver::WriteSliceReq& request, ::grpc::CompletionQueue* cq) override;
-    const ::grpc::internal::RpcMethod rpcmethod_SetChunkStatus_;
+    const ::grpc::internal::RpcMethod rpcmethod_SetChunkState_;
     const ::grpc::internal::RpcMethod rpcmethod_AllocateInode_;
     const ::grpc::internal::RpcMethod rpcmethod_ReadSlice_;
     const ::grpc::internal::RpcMethod rpcmethod_WriteSlice_;
@@ -163,28 +163,28 @@ class ChunkServerService final {
     Service();
     virtual ~Service();
     // rpc  (Req) returns (Rsp);
-    virtual ::grpc::Status SetChunkStatus(::grpc::ServerContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response);
+    virtual ::grpc::Status SetChunkState(::grpc::ServerContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response);
     virtual ::grpc::Status AllocateInode(::grpc::ServerContext* context, const ::chunkserver::AllocateInodeReq* request, ::chunkserver::AllocateInodeRsp* response);
     virtual ::grpc::Status ReadSlice(::grpc::ServerContext* context, const ::chunkserver::ReadSliceReq* request, ::chunkserver::ReadSliceRsp* response);
     virtual ::grpc::Status WriteSlice(::grpc::ServerContext* context, const ::chunkserver::WriteSliceReq* request, ::chunkserver::WriteSliceRsp* response);
   };
   template <class BaseClass>
-  class WithAsyncMethod_SetChunkStatus : public BaseClass {
+  class WithAsyncMethod_SetChunkState : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithAsyncMethod_SetChunkStatus() {
+    WithAsyncMethod_SetChunkState() {
       ::grpc::Service::MarkMethodAsync(0);
     }
-    ~WithAsyncMethod_SetChunkStatus() override {
+    ~WithAsyncMethod_SetChunkState() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetChunkStatus(::grpc::ServerContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response) override {
+    ::grpc::Status SetChunkState(::grpc::ServerContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestSetChunkStatus(::grpc::ServerContext* context, ::chunkserver::SetChunkStatusReq* request, ::grpc::ServerAsyncResponseWriter< ::chunkserver::SetChunkStatusRsp>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestSetChunkState(::grpc::ServerContext* context, ::chunkserver::SetChunkStateReq* request, ::grpc::ServerAsyncResponseWriter< ::chunkserver::SetChunkStateRsp>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -248,31 +248,31 @@ class ChunkServerService final {
       ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_SetChunkStatus<WithAsyncMethod_AllocateInode<WithAsyncMethod_ReadSlice<WithAsyncMethod_WriteSlice<Service > > > > AsyncService;
+  typedef WithAsyncMethod_SetChunkState<WithAsyncMethod_AllocateInode<WithAsyncMethod_ReadSlice<WithAsyncMethod_WriteSlice<Service > > > > AsyncService;
   template <class BaseClass>
-  class ExperimentalWithCallbackMethod_SetChunkStatus : public BaseClass {
+  class ExperimentalWithCallbackMethod_SetChunkState : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    ExperimentalWithCallbackMethod_SetChunkStatus() {
+    ExperimentalWithCallbackMethod_SetChunkState() {
       ::grpc::Service::experimental().MarkMethodCallback(0,
-        new ::grpc::internal::CallbackUnaryHandler< ::chunkserver::SetChunkStatusReq, ::chunkserver::SetChunkStatusRsp>(
+        new ::grpc::internal::CallbackUnaryHandler< ::chunkserver::SetChunkStateReq, ::chunkserver::SetChunkStateRsp>(
           [this](::grpc::ServerContext* context,
-                 const ::chunkserver::SetChunkStatusReq* request,
-                 ::chunkserver::SetChunkStatusRsp* response,
+                 const ::chunkserver::SetChunkStateReq* request,
+                 ::chunkserver::SetChunkStateRsp* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
-                   return this->SetChunkStatus(context, request, response, controller);
+                   return this->SetChunkState(context, request, response, controller);
                  }));
     }
-    ~ExperimentalWithCallbackMethod_SetChunkStatus() override {
+    ~ExperimentalWithCallbackMethod_SetChunkState() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetChunkStatus(::grpc::ServerContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response) override {
+    ::grpc::Status SetChunkState(::grpc::ServerContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void SetChunkStatus(::grpc::ServerContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void SetChunkState(::grpc::ServerContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_AllocateInode : public BaseClass {
@@ -349,20 +349,20 @@ class ChunkServerService final {
     }
     virtual void WriteSlice(::grpc::ServerContext* context, const ::chunkserver::WriteSliceReq* request, ::chunkserver::WriteSliceRsp* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
-  typedef ExperimentalWithCallbackMethod_SetChunkStatus<ExperimentalWithCallbackMethod_AllocateInode<ExperimentalWithCallbackMethod_ReadSlice<ExperimentalWithCallbackMethod_WriteSlice<Service > > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_SetChunkState<ExperimentalWithCallbackMethod_AllocateInode<ExperimentalWithCallbackMethod_ReadSlice<ExperimentalWithCallbackMethod_WriteSlice<Service > > > > ExperimentalCallbackService;
   template <class BaseClass>
-  class WithGenericMethod_SetChunkStatus : public BaseClass {
+  class WithGenericMethod_SetChunkState : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithGenericMethod_SetChunkStatus() {
+    WithGenericMethod_SetChunkState() {
       ::grpc::Service::MarkMethodGeneric(0);
     }
-    ~WithGenericMethod_SetChunkStatus() override {
+    ~WithGenericMethod_SetChunkState() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetChunkStatus(::grpc::ServerContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response) override {
+    ::grpc::Status SetChunkState(::grpc::ServerContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -419,22 +419,22 @@ class ChunkServerService final {
     }
   };
   template <class BaseClass>
-  class WithRawMethod_SetChunkStatus : public BaseClass {
+  class WithRawMethod_SetChunkState : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithRawMethod_SetChunkStatus() {
+    WithRawMethod_SetChunkState() {
       ::grpc::Service::MarkMethodRaw(0);
     }
-    ~WithRawMethod_SetChunkStatus() override {
+    ~WithRawMethod_SetChunkState() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetChunkStatus(::grpc::ServerContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response) override {
+    ::grpc::Status SetChunkState(::grpc::ServerContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestSetChunkStatus(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestSetChunkState(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -499,29 +499,29 @@ class ChunkServerService final {
     }
   };
   template <class BaseClass>
-  class ExperimentalWithRawCallbackMethod_SetChunkStatus : public BaseClass {
+  class ExperimentalWithRawCallbackMethod_SetChunkState : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    ExperimentalWithRawCallbackMethod_SetChunkStatus() {
+    ExperimentalWithRawCallbackMethod_SetChunkState() {
       ::grpc::Service::experimental().MarkMethodRawCallback(0,
         new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
           [this](::grpc::ServerContext* context,
                  const ::grpc::ByteBuffer* request,
                  ::grpc::ByteBuffer* response,
                  ::grpc::experimental::ServerCallbackRpcController* controller) {
-                   this->SetChunkStatus(context, request, response, controller);
+                   this->SetChunkState(context, request, response, controller);
                  }));
     }
-    ~ExperimentalWithRawCallbackMethod_SetChunkStatus() override {
+    ~ExperimentalWithRawCallbackMethod_SetChunkState() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetChunkStatus(::grpc::ServerContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response) override {
+    ::grpc::Status SetChunkState(::grpc::ServerContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    virtual void SetChunkStatus(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
+    virtual void SetChunkState(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
   class ExperimentalWithRawCallbackMethod_AllocateInode : public BaseClass {
@@ -599,24 +599,24 @@ class ChunkServerService final {
     virtual void WriteSlice(::grpc::ServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response, ::grpc::experimental::ServerCallbackRpcController* controller) { controller->Finish(::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "")); }
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_SetChunkStatus : public BaseClass {
+  class WithStreamedUnaryMethod_SetChunkState : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithStreamedUnaryMethod_SetChunkStatus() {
+    WithStreamedUnaryMethod_SetChunkState() {
       ::grpc::Service::MarkMethodStreamed(0,
-        new ::grpc::internal::StreamedUnaryHandler< ::chunkserver::SetChunkStatusReq, ::chunkserver::SetChunkStatusRsp>(std::bind(&WithStreamedUnaryMethod_SetChunkStatus<BaseClass>::StreamedSetChunkStatus, this, std::placeholders::_1, std::placeholders::_2)));
+        new ::grpc::internal::StreamedUnaryHandler< ::chunkserver::SetChunkStateReq, ::chunkserver::SetChunkStateRsp>(std::bind(&WithStreamedUnaryMethod_SetChunkState<BaseClass>::StreamedSetChunkState, this, std::placeholders::_1, std::placeholders::_2)));
     }
-    ~WithStreamedUnaryMethod_SetChunkStatus() override {
+    ~WithStreamedUnaryMethod_SetChunkState() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SetChunkStatus(::grpc::ServerContext* context, const ::chunkserver::SetChunkStatusReq* request, ::chunkserver::SetChunkStatusRsp* response) override {
+    ::grpc::Status SetChunkState(::grpc::ServerContext* context, const ::chunkserver::SetChunkStateReq* request, ::chunkserver::SetChunkStateRsp* response) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedSetChunkStatus(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::chunkserver::SetChunkStatusReq,::chunkserver::SetChunkStatusRsp>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedSetChunkState(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::chunkserver::SetChunkStateReq,::chunkserver::SetChunkStateRsp>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_AllocateInode : public BaseClass {
@@ -678,9 +678,9 @@ class ChunkServerService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedWriteSlice(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::chunkserver::WriteSliceReq,::chunkserver::WriteSliceRsp>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_SetChunkStatus<WithStreamedUnaryMethod_AllocateInode<WithStreamedUnaryMethod_ReadSlice<WithStreamedUnaryMethod_WriteSlice<Service > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_SetChunkState<WithStreamedUnaryMethod_AllocateInode<WithStreamedUnaryMethod_ReadSlice<WithStreamedUnaryMethod_WriteSlice<Service > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_SetChunkStatus<WithStreamedUnaryMethod_AllocateInode<WithStreamedUnaryMethod_ReadSlice<WithStreamedUnaryMethod_WriteSlice<Service > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_SetChunkState<WithStreamedUnaryMethod_AllocateInode<WithStreamedUnaryMethod_ReadSlice<WithStreamedUnaryMethod_WriteSlice<Service > > > > StreamedService;
 };
 
 }  // namespace chunkserver

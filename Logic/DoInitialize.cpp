@@ -1,3 +1,4 @@
+#include <thread>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -10,6 +11,7 @@
 
 #include "Logic.hpp"
 #include "InodeLruCache.hpp"
+#include "ReportToMasterLoop.hpp"
 
 #include "coredeps/SatelliteClient.hpp"
 
@@ -44,14 +46,15 @@ static int DoCheckDisk(const char *device, DiskInfo &di)
             spdlog::error("magic number not correct!");
             continue;
         }
-        spdlog::info("version: {}, hex: 0x{:016x}, next_inode: {}, l_used: {}, a_used: {}",
-            ch.Version, ch.ChunkId, ch.NextInode, ch.LogicalUsedSpace, ch.ActualUsedSpace);
+        spdlog::info("hex: 0x{:016x}, next_inode: {}, l_used: {}, a_used: {}, state: {}",
+            ch.ChunkId, ch.NextInode, ch.LogicalUsedSpace, ch.ActualUsedSpace, ch.State);
         auto &ci = di.Chunks[chunk_i];
         ci.SetDiskInfoPtr(&di);
         ci.ChunkId = ch.ChunkId;
         ci.NextInode = ch.NextInode;
         ci.ActualUsedSpace = ch.ActualUsedSpace;
         ci.LogicalUsedSpace = ch.LogicalUsedSpace;
+        ci.State = ch.State;
     }
     close(fd);
     return chunk_count;
@@ -73,17 +76,17 @@ void DoInitialize(const char *conf_file)
     {
         throw std::runtime_error(string("Parse config file failed: ").append(conf_file));
     }
-    GClusterId = atoi(LibConf.GetKV("root", "cluster_id").c_str());
-    GMachineId = atoi(LibConf.GetKV("root", "machine_id").c_str());
-    spdlog::info("Cluster ID: {}, Machine ID: {}", GClusterId, GMachineId);
-    GDiskCount = LibConf.GetSection("root\\disks").Children.size();
-    GDiskInfo = new DiskInfo[GDiskCount];
+    g_iClusterId = atoi(LibConf.GetKV("root", "cluster_id").c_str());
+    g_iMachineId = atoi(LibConf.GetKV("root", "machine_id").c_str());
+    spdlog::info("Cluster ID: {}, Machine ID: {}", g_iClusterId, g_iMachineId);
+    g_iDiskCount = LibConf.GetSection("root\\disks").Children.size();
+    g_apDiskInfo = new DiskInfo[g_iDiskCount];
     for (const auto &i : LibConf.GetSection("root\\disks").Children)
     {
         const auto &tag = i.Tag;
         const auto &device = LibConf.GetKV(string("root\\disks\\").append(tag).c_str(), "path");
         int disk_id = atoi(LibConf.GetKV(string("root\\disks\\").append(tag).c_str(), "disk_id").c_str());
-        auto &di = GDiskInfo[disk_id];
+        auto &di = g_apDiskInfo[disk_id];
         DoCheckDisk(device.c_str(), di);
         if (di.ChunkCount < 0)
         {
@@ -94,4 +97,7 @@ void DoInitialize(const char *conf_file)
     }
     // Inode LRU cache
     DoInitializeInodeCache();
+    // Start report to master loop
+    std::thread thReportLoop(ReportToMasterLoop);
+    thReportLoop.detach();
 }

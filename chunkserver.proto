@@ -1,12 +1,12 @@
 syntax = "proto3";
 package chunkserver;
 
-message SetChunkStatusReq {
+message SetChunkStateReq {
     uint64 chunk_id = 1;
-    uint32 status_to_set = 2;
+    uint32 state_to_set = 2;
 }
 
-message SetChunkStatusRsp {
+message SetChunkStateRsp {
     
 }
 
@@ -44,7 +44,7 @@ message WriteSliceRsp {
 
 service ChunkServerService {
     // rpc  (Req) returns (Rsp);
-    rpc SetChunkStatus (SetChunkStatusReq) returns (SetChunkStatusRsp);
+    rpc SetChunkState (SetChunkStateReq) returns (SetChunkStateRsp);
     rpc AllocateInode (AllocateInodeReq) returns (AllocateInodeRsp);
     rpc ReadSlice (ReadSliceReq) returns (ReadSliceRsp);
     rpc WriteSlice (WriteSliceReq) returns (WriteSliceRsp);

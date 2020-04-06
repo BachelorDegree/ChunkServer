@@ -81,6 +81,7 @@ ChunkHeader ChunkInfo::GetChunkHeader(void) const
     oRet.NextInode = this->NextInode;
     oRet.ActualUsedSpace = this->ActualUsedSpace;
     oRet.LogicalUsedSpace = this->LogicalUsedSpace;
+    oRet.State = this->State;
     return oRet;
 }
 
@@ -92,7 +93,7 @@ void Inode::FlushLruCache(uint64_t sliceId)
 ssize_t Inode::FlushToDisk(uint64_t sliceId, bool UseCoroutine)
 {
     Storage::SliceId sid(sliceId);
-    auto &di = GDiskInfo[sid.Disk()];
+    auto &di = g_apDiskInfo[sid.Disk()];
     auto offset = di.Chunks[sid.Chunk()].GetInodeOffset(sid.Slice());
     if (UseCoroutine)
     {

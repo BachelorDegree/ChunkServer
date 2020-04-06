@@ -1,10 +1,13 @@
 #include <colib/co_aio.h>
 #include <spdlog/spdlog.h>
+#include "coredeps/SliceId.hpp"
+
+#include "errcode.h"
+#include "Logic/Logic.hpp"
+#include "Logic/InodeLruCache.hpp"
+
 #include "ReadSliceHandler.hpp"
 #include "ChunkServerServiceImpl.hpp"
-#include "coredeps/SliceId.hpp"
-#include "../Logic/Logic.hpp"
-#include "../Logic/InodeLruCache.hpp"
 
 void ReadSliceHandler::SetInterfaceName(void)
 {
@@ -47,15 +50,15 @@ int ReadSliceHandler::Implementation(void)
     Storage::SliceId oSliceId(request.slice_id());
     do
     {
-        if (oSliceId.Cluster() != GClusterId 
-            || oSliceId.Machine() != GMachineId
-            || oSliceId.Disk() >= GDiskCount
+        if (oSliceId.Cluster() != g_iClusterId 
+            || oSliceId.Machine() != g_iMachineId
+            || oSliceId.Disk() >= g_iDiskCount
         )
         {
             iRet = E_DISK_NOT_ON_THIS_MACHINE;
             break;
         }
-        auto &oDiskInfo = GDiskInfo[oSliceId.Disk()];
+        auto &oDiskInfo = g_apDiskInfo[oSliceId.Disk()];
         if (oSliceId.Chunk() >= static_cast<uint64_t>(oDiskInfo.ChunkCount))
         {
             iRet = E_CHUNK_ID_OUT_OF_RANGE;
