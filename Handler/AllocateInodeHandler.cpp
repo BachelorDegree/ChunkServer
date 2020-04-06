@@ -4,6 +4,7 @@
 #include "errcode.h"
 #include "define.hpp"
 #include "Logic/Logic.hpp"
+#include "Logic/ChunkFSM.hpp"
 
 #include "AllocateInodeHandler.hpp"
 #include "ChunkServerServiceImpl.hpp"
@@ -81,6 +82,7 @@ int AllocateInodeHandler::Implementation(void)
         oChunkInfo.ActualUsedSpace += oInode.ActualLength();
         oChunkInfo.LogicalUsedSpace += oInode.LogicalLength;
         ++oChunkInfo.NextInode;
+        oChunkInfo.State = static_cast<uint32_t>(ChunkFSM::WRITING); // 状态转移到 WRITING
         auto iInodeFlushRet = oInode.FlushToDisk(request.chunk_id());
         if (iInodeFlushRet < 0)
         {
