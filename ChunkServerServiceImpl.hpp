@@ -15,4 +15,5 @@ public:
     int AllocateInode(const ::chunkserver::AllocateInodeReq & oReq, ::chunkserver::AllocateInodeRsp & oResp);
     int ReadSlice(const ::chunkserver::ReadSliceReq & oReq, ::chunkserver::ReadSliceRsp & oResp);
     int WriteSlice(const ::chunkserver::WriteSliceReq & oReq, ::chunkserver::WriteSliceRsp & oResp);
+    int ManipulateReferenceCount(const ::chunkserver::ManipulateReferenceCountReq & oReq, ::chunkserver::ManipulateReferenceCountRsp & oResp);
 };

@@ -22,6 +22,7 @@ static const char* ChunkMasterService_method_names[] = {
   "/chunkmaster.ChunkMasterService/CalculateUploadSliceLengths",
   "/chunkmaster.ChunkMasterService/AllocateUploadSlice",
   "/chunkmaster.ChunkMasterService/FinishUploadSlice",
+  "/chunkmaster.ChunkMasterService/BatchGetPhysicalSlices",
   "/chunkmaster.ChunkMasterService/ReportChunkInformation",
 };
 
@@ -35,7 +36,8 @@ ChunkMasterService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>&
   : channel_(channel), rpcmethod_CalculateUploadSliceLengths_(ChunkMasterService_method_names[0], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_AllocateUploadSlice_(ChunkMasterService_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_FinishUploadSlice_(ChunkMasterService_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ReportChunkInformation_(ChunkMasterService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_BatchGetPhysicalSlices_(ChunkMasterService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ReportChunkInformation_(ChunkMasterService_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status ChunkMasterService::Stub::CalculateUploadSliceLengths(::grpc::ClientContext* context, const ::chunkmaster::CalculateUploadSliceLengthsReq& request, ::chunkmaster::CalculateUploadSliceLengthsRsp* response) {
@@ -98,6 +100,26 @@ void ChunkMasterService::Stub::experimental_async::FinishUploadSlice(::grpc::Cli
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkmaster::FinishUploadSliceRsp>::Create(channel_.get(), cq, rpcmethod_FinishUploadSlice_, context, request, false);
 }
 
+::grpc::Status ChunkMasterService::Stub::BatchGetPhysicalSlices(::grpc::ClientContext* context, const ::chunkmaster::BatchGetPhysicalSlicesReq& request, ::chunkmaster::BatchGetPhysicalSlicesRsp* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_BatchGetPhysicalSlices_, context, request, response);
+}
+
+void ChunkMasterService::Stub::experimental_async::BatchGetPhysicalSlices(::grpc::ClientContext* context, const ::chunkmaster::BatchGetPhysicalSlicesReq* request, ::chunkmaster::BatchGetPhysicalSlicesRsp* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_BatchGetPhysicalSlices_, context, request, response, std::move(f));
+}
+
+void ChunkMasterService::Stub::experimental_async::BatchGetPhysicalSlices(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkmaster::BatchGetPhysicalSlicesRsp* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_BatchGetPhysicalSlices_, context, request, response, std::move(f));
+}
+
+::grpc::ClientAsyncResponseReader< ::chunkmaster::BatchGetPhysicalSlicesRsp>* ChunkMasterService::Stub::AsyncBatchGetPhysicalSlicesRaw(::grpc::ClientContext* context, const ::chunkmaster::BatchGetPhysicalSlicesReq& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkmaster::BatchGetPhysicalSlicesRsp>::Create(channel_.get(), cq, rpcmethod_BatchGetPhysicalSlices_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::chunkmaster::BatchGetPhysicalSlicesRsp>* ChunkMasterService::Stub::PrepareAsyncBatchGetPhysicalSlicesRaw(::grpc::ClientContext* context, const ::chunkmaster::BatchGetPhysicalSlicesReq& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkmaster::BatchGetPhysicalSlicesRsp>::Create(channel_.get(), cq, rpcmethod_BatchGetPhysicalSlices_, context, request, false);
+}
+
 ::grpc::Status ChunkMasterService::Stub::ReportChunkInformation(::grpc::ClientContext* context, const ::chunkmaster::ReportChunkInformationReq& request, ::chunkmaster::ReportChunkInformationRsp* response) {
   return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_ReportChunkInformation_, context, request, response);
 }
@@ -137,6 +159,11 @@ ChunkMasterService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ChunkMasterService_method_names[3],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ChunkMasterService::Service, ::chunkmaster::BatchGetPhysicalSlicesReq, ::chunkmaster::BatchGetPhysicalSlicesRsp>(
+          std::mem_fn(&ChunkMasterService::Service::BatchGetPhysicalSlices), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ChunkMasterService_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ChunkMasterService::Service, ::chunkmaster::ReportChunkInformationReq, ::chunkmaster::ReportChunkInformationRsp>(
           std::mem_fn(&ChunkMasterService::Service::ReportChunkInformation), this)));
 }
@@ -159,6 +186,13 @@ ChunkMasterService::Service::~Service() {
 }
 
 ::grpc::Status ChunkMasterService::Service::FinishUploadSlice(::grpc::ServerContext* context, const ::chunkmaster::FinishUploadSliceReq* request, ::chunkmaster::FinishUploadSliceRsp* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ChunkMasterService::Service::BatchGetPhysicalSlices(::grpc::ServerContext* context, const ::chunkmaster::BatchGetPhysicalSlicesReq* request, ::chunkmaster::BatchGetPhysicalSlicesRsp* response) {
   (void) context;
   (void) request;
   (void) response;

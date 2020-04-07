@@ -10,3 +10,4 @@ extern uint32_t g_iDiskCount;
 extern DiskInfo* g_apDiskInfo;
 
 void DoInitialize(const char *);
+int  IsChunkIdValid(uint64_t iChunkId);

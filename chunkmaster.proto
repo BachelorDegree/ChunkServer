@@ -1,0 +1,71 @@
+syntax = "proto3";
+package chunkmaster;
+
+message CalculateUploadSliceLengthsReq {
+    uint64 data_length = 1;
+}
+
+message CalculateUploadSliceLengthsRsp {
+    repeated uint32 lengths = 1;
+}
+
+message AllocateUploadSliceReq {
+    uint64 data_length = 1;
+    uint32 replica_policy = 2;
+}
+
+message AllocateUploadSliceRsp {
+    uint64 logical_slice_id = 1;
+    repeated uint64 physical_slice_id = 2;
+}
+
+message FinishUploadSliceReq {
+    uint64 physical_slice_id = 1;
+    bool is_normal_exit = 2;
+}
+
+message FinishUploadSliceRsp {
+}
+
+message BatchGetPhysicalSlicesReq {
+    repeated uint64 logical_slice_ids = 1;
+}
+
+message BatchGetPhysicalSlicesRsp {
+    repeated AllocateUploadSliceRsp results = 1;
+}
+
+enum ChunkState {
+    STANDBY     = 0;
+    WRITING     = 1;
+    ERROR       = 2;
+    MOVING      = 3;
+    EMPTY       = 4;
+    EMPTYERROR  = 5;
+}
+
+message ChunkInformation {
+    uint64 chunk_id = 1;
+    uint32 logical_used_space = 2;
+    uint32 actual_used_space = 3;
+    ChunkState state = 4;
+}
+
+message ReportChunkInformationReq {
+    repeated ChunkInformation chunk_info = 1;
+}
+
+message ReportChunkInformationRsp {
+
+}
+
+service ChunkMasterService {
+    // rpc  (Req) returns (Rsp);
+    rpc CalculateUploadSliceLengths (CalculateUploadSliceLengthsReq) returns (CalculateUploadSliceLengthsRsp);
+    rpc AllocateUploadSlice (AllocateUploadSliceReq) returns (AllocateUploadSliceRsp);
+    rpc FinishUploadSlice (FinishUploadSliceReq) returns (FinishUploadSliceRsp);
+    rpc BatchGetPhysicalSlices (BatchGetPhysicalSlicesReq) returns (BatchGetPhysicalSlicesRsp);
+
+    // For ChunkServer
+    rpc ReportChunkInformation (ReportChunkInformationReq) returns (ReportChunkInformationRsp);
+}

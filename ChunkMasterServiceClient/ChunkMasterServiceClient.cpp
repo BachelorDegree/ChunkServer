@@ -58,6 +58,17 @@ int ChunkMasterServiceClient::FinishUploadSlice(const ::chunkmaster::FinishUploa
   }
   return ClientContextHelper(oContext).GetReturnCode();
 }
+int ChunkMasterServiceClient::BatchGetPhysicalSlices(const ::chunkmaster::BatchGetPhysicalSlicesReq & oReq, ::chunkmaster::BatchGetPhysicalSlicesRsp & oResp)
+{
+  ::chunkmaster::ChunkMasterService::Stub oStub{m_pChannel};
+  grpc::ClientContext oContext;
+  auto oStatus = oStub.BatchGetPhysicalSlices(&oContext, oReq, &oResp);
+  if (oStatus.ok() == false)
+  {
+    return -1;
+  }
+  return ClientContextHelper(oContext).GetReturnCode();
+}
 int ChunkMasterServiceClient::ReportChunkInformation(const ::chunkmaster::ReportChunkInformationReq & oReq, ::chunkmaster::ReportChunkInformationRsp & oResp)
 {
   ::chunkmaster::ChunkMasterService::Stub oStub{m_pChannel};

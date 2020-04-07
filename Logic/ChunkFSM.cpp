@@ -19,6 +19,8 @@ ChunkFSM::Status ChunkFSM::Transit(ChunkFSM::Status iCurrentState, ChunkFSM::Act
         {
         case SET_DIRTY:
             return ERROR;
+        case FINISH_UPLOAD:
+            return STANDBY;
         default:
             return NOTKNOWN;
         }

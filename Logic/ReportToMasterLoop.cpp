@@ -34,7 +34,7 @@ void ReportToMasterLoop(void)
 {
     for ( ; ;)
     {
-        spdlog::info("ReportToMasterLoop running");
+        spdlog::trace("ReportToMasterLoop running");
         Impl();
         std::this_thread::sleep_for(std::chrono::seconds(15));
     }

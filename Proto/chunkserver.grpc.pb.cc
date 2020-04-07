@@ -23,6 +23,7 @@ static const char* ChunkServerService_method_names[] = {
   "/chunkserver.ChunkServerService/AllocateInode",
   "/chunkserver.ChunkServerService/ReadSlice",
   "/chunkserver.ChunkServerService/WriteSlice",
+  "/chunkserver.ChunkServerService/ManipulateReferenceCount",
 };
 
 std::unique_ptr< ChunkServerService::Stub> ChunkServerService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -36,6 +37,7 @@ ChunkServerService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>&
   , rpcmethod_AllocateInode_(ChunkServerService_method_names[1], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_ReadSlice_(ChunkServerService_method_names[2], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_WriteSlice_(ChunkServerService_method_names[3], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ManipulateReferenceCount_(ChunkServerService_method_names[4], ::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status ChunkServerService::Stub::SetChunkState(::grpc::ClientContext* context, const ::chunkserver::SetChunkStateReq& request, ::chunkserver::SetChunkStateRsp* response) {
@@ -118,6 +120,26 @@ void ChunkServerService::Stub::experimental_async::WriteSlice(::grpc::ClientCont
   return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkserver::WriteSliceRsp>::Create(channel_.get(), cq, rpcmethod_WriteSlice_, context, request, false);
 }
 
+::grpc::Status ChunkServerService::Stub::ManipulateReferenceCount(::grpc::ClientContext* context, const ::chunkserver::ManipulateReferenceCountReq& request, ::chunkserver::ManipulateReferenceCountRsp* response) {
+  return ::grpc::internal::BlockingUnaryCall(channel_.get(), rpcmethod_ManipulateReferenceCount_, context, request, response);
+}
+
+void ChunkServerService::Stub::experimental_async::ManipulateReferenceCount(::grpc::ClientContext* context, const ::chunkserver::ManipulateReferenceCountReq* request, ::chunkserver::ManipulateReferenceCountRsp* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ManipulateReferenceCount_, context, request, response, std::move(f));
+}
+
+void ChunkServerService::Stub::experimental_async::ManipulateReferenceCount(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::chunkserver::ManipulateReferenceCountRsp* response, std::function<void(::grpc::Status)> f) {
+  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_ManipulateReferenceCount_, context, request, response, std::move(f));
+}
+
+::grpc::ClientAsyncResponseReader< ::chunkserver::ManipulateReferenceCountRsp>* ChunkServerService::Stub::AsyncManipulateReferenceCountRaw(::grpc::ClientContext* context, const ::chunkserver::ManipulateReferenceCountReq& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkserver::ManipulateReferenceCountRsp>::Create(channel_.get(), cq, rpcmethod_ManipulateReferenceCount_, context, request, true);
+}
+
+::grpc::ClientAsyncResponseReader< ::chunkserver::ManipulateReferenceCountRsp>* ChunkServerService::Stub::PrepareAsyncManipulateReferenceCountRaw(::grpc::ClientContext* context, const ::chunkserver::ManipulateReferenceCountReq& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::chunkserver::ManipulateReferenceCountRsp>::Create(channel_.get(), cq, rpcmethod_ManipulateReferenceCount_, context, request, false);
+}
+
 ChunkServerService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       ChunkServerService_method_names[0],
@@ -139,6 +161,11 @@ ChunkServerService::Service::Service() {
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< ChunkServerService::Service, ::chunkserver::WriteSliceReq, ::chunkserver::WriteSliceRsp>(
           std::mem_fn(&ChunkServerService::Service::WriteSlice), this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      ChunkServerService_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< ChunkServerService::Service, ::chunkserver::ManipulateReferenceCountReq, ::chunkserver::ManipulateReferenceCountRsp>(
+          std::mem_fn(&ChunkServerService::Service::ManipulateReferenceCount), this)));
 }
 
 ChunkServerService::Service::~Service() {
@@ -166,6 +193,13 @@ ChunkServerService::Service::~Service() {
 }
 
 ::grpc::Status ChunkServerService::Service::WriteSlice(::grpc::ServerContext* context, const ::chunkserver::WriteSliceReq* request, ::chunkserver::WriteSliceRsp* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status ChunkServerService::Service::ManipulateReferenceCount(::grpc::ServerContext* context, const ::chunkserver::ManipulateReferenceCountReq* request, ::chunkserver::ManipulateReferenceCountRsp* response) {
   (void) context;
   (void) request;
   (void) response;

@@ -42,10 +42,24 @@ message WriteSliceRsp {
 
 }
 
+message ManipulateReferenceCountReq {
+    enum OperationType {
+        INCREASE = 0;
+        DECREASE = 1;
+    }
+    uint64 slice_id = 1;
+    OperationType operation = 2;
+}
+
+message ManipulateReferenceCountRsp {
+
+}
+
 service ChunkServerService {
     // rpc  (Req) returns (Rsp);
     rpc SetChunkState (SetChunkStateReq) returns (SetChunkStateRsp);
     rpc AllocateInode (AllocateInodeReq) returns (AllocateInodeRsp);
     rpc ReadSlice (ReadSliceReq) returns (ReadSliceRsp);
     rpc WriteSlice (WriteSliceReq) returns (WriteSliceRsp);
+    rpc ManipulateReferenceCount (ManipulateReferenceCountReq) returns (ManipulateReferenceCountRsp);
 }

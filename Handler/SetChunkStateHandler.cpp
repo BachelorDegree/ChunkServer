@@ -48,20 +48,12 @@ int SetChunkStateHandler::Implementation(void)
     Storage::SliceId oSliceId(request.chunk_id());
     do
     {
-        if (oSliceId.Cluster() != g_iClusterId 
-            || oSliceId.Machine() != g_iMachineId
-            || oSliceId.Disk() >= g_iDiskCount
-        )
+        iRet = IsChunkIdValid(oSliceId.UInt());
+        if (iRet != 0)
         {
-            iRet = E_DISK_NOT_ON_THIS_MACHINE;
             break;
         }
         auto &oDiskInfo = g_apDiskInfo[oSliceId.Disk()];
-        if (oSliceId.Chunk() >= static_cast<uint64_t>(oDiskInfo.ChunkCount))
-        {
-            iRet = E_CHUNK_ID_OUT_OF_RANGE;
-            break;
-        }
         auto &oChunkInfo = oDiskInfo.Chunks[oSliceId.Chunk()];
         CoMutexGuard oGuard(oChunkInfo.Mutex);
         oChunkInfo.State = request.state_to_set();
@@ -72,6 +64,6 @@ int SetChunkStateHandler::Implementation(void)
             return E_FLUSH_CHUNK_HEADER_FAILED;
         }
     } while (false);
-    spdlog::info("SetChunkState - chunk_id: 0x{:016x}, state: {}", request.chunk_id(), request.state_to_set());
+    spdlog::trace("SetChunkState - chunk_id: 0x{:016x}, state: {}", request.chunk_id(), request.state_to_set());
     return iRet;
 }

@@ -11,3 +11,6 @@ int ChunkServerServiceImpl::ReadSlice(const ::chunkserver::ReadSliceReq & oReq, 
 int ChunkServerServiceImpl::WriteSlice(const ::chunkserver::WriteSliceReq & oReq, ::chunkserver::WriteSliceRsp & oResp) {
     return -1;
 }
+int ChunkServerServiceImpl::ManipulateReferenceCount(const ::chunkserver::ManipulateReferenceCountReq & oReq, ::chunkserver::ManipulateReferenceCountRsp & oResp) {
+    return -1;
+}
