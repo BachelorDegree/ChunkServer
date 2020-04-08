@@ -1,4 +1,5 @@
 #include <cstring>
+#include <spdlog/spdlog.h>
 #include "define.hpp"
 #include "Logic.hpp"
 #include "DiskInfo.hpp"
@@ -28,7 +29,7 @@ DiskInfo::~DiskInfo(void)
 ChunkInfo::ChunkInfo(DiskInfo* pParent):
     Mutex(new libco::CoMutex), DiskInfoPtr(pParent)
 {
-
+    spdlog::debug("ChunkInfo constructor, Mutex={:016x}", reinterpret_cast<uint64_t>(Mutex));
 }
 
 ChunkInfo::~ChunkInfo(void)
@@ -87,21 +88,30 @@ ChunkHeader ChunkInfo::GetChunkHeader(void) const
 
 void Inode::FlushLruCache(uint64_t sliceId)
 {
+    spdlog::trace("Inode::FlushLruCache");
     InodeLruCache::GetInstance().Put(sliceId, *this);
 }
 
 ssize_t Inode::FlushToDisk(uint64_t sliceId, bool UseCoroutine)
 {
+    ssize_t iRet = 0;
+    spdlog::trace("Inode::FlushToDisk");
     Storage::SliceId sid(sliceId);
     auto &di = g_apDiskInfo[sid.Disk()];
     auto offset = di.Chunks[sid.Chunk()].GetInodeOffset(sid.Slice());
     if (UseCoroutine)
     {
-        return co_pwrite(di.Fd, this, sizeof(*this), offset);
+        iRet = co_pwrite(di.Fd, this, sizeof(*this), offset);
     }
     else
     {
-        return pwrite64(di.Fd, this, sizeof(*this), offset);
+        iRet = pwrite64(di.Fd, this, sizeof(*this), offset);
     }
     this->FlushLruCache(sliceId);
+    return iRet;
+}
+
+std::string Inode::ShortDebugString(void) const
+{
+    return fmt::format(FMT_STRING("Inode: Offset={},LogicalLength={},RefCount={}"), Offset, LogicalLength, RefCount);
 }

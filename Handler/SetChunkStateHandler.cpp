@@ -1,4 +1,5 @@
 #include <spdlog/spdlog.h>
+#include <colib/co_mutex.h>
 #include "coredeps/SliceId.hpp"
 
 #include "errcode.h"
@@ -55,7 +56,7 @@ int SetChunkStateHandler::Implementation(void)
         }
         auto &oDiskInfo = g_apDiskInfo[oSliceId.Disk()];
         auto &oChunkInfo = oDiskInfo.Chunks[oSliceId.Chunk()];
-        CoMutexGuard oGuard(oChunkInfo.Mutex);
+        std::lock_guard<libco::CoMutex> oGuard(*oChunkInfo.Mutex);
         oChunkInfo.State = request.state_to_set();
         auto iPwriteRet = oChunkInfo.FlushToDisk();
         if (iPwriteRet < 0)
@@ -64,6 +65,6 @@ int SetChunkStateHandler::Implementation(void)
             return E_FLUSH_CHUNK_HEADER_FAILED;
         }
     } while (false);
-    spdlog::trace("SetChunkState - chunk_id: 0x{:016x}, state: {}", request.chunk_id(), request.state_to_set());
+    spdlog::info("SetChunkState - chunk_id: 0x{:016x}, state: {}", request.chunk_id(), request.state_to_set());
     return iRet;
 }

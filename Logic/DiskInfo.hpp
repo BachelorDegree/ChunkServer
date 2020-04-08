@@ -2,14 +2,10 @@
 
 #include <cstdio>
 #include <fcntl.h>
+#include <colib/co_mutex.h>
 #include "coredeps/SliceId.hpp"
 
 #include "../define.hpp"
-
-namespace libco
-{
-    class CoMutex;
-}
 
 struct DiskInfo;
 

@@ -58,27 +58,30 @@ int ReadSliceHandler::Implementation(void)
         auto &oDiskInfo = g_apDiskInfo[oSliceId.Disk()];
         auto &oChunkInfo = oDiskInfo.Chunks[oSliceId.Chunk()];
         auto oInode = InodeLruCache::GetInstance().Get(oSliceId.UInt());
+        spdlog::debug("ReadSilce: {}", oInode.ShortDebugString());
         if (request.offset() >= oInode.LogicalLength)
         {
             iRet = E_OFFSET_OUT_OF_RANGE;
             break;
         }
-        if (request.offset() + request.length_to_read() >= oInode.LogicalLength)
+        if (request.offset() + request.length_to_read() > oInode.LogicalLength)
         {
             iRet = E_DATA_LENGTH_OUT_OF_RANGE;
             break;
         }
-        response.mutable_data()->reserve(request.length_to_read());
-        CoMutexGuard oGuard(oChunkInfo.Mutex);
+        response.mutable_data()->resize(request.length_to_read());
+        // std::lock_guard<libco::CoMutex> oGuard(*oChunkInfo.Mutex); // TODO
         auto iOffset = oChunkInfo.GetDataSectionOffset() + oInode.Offset + request.offset();
         iPreadRet = co_pread(oChunkInfo.DiskInfoPtr->Fd, (void*)response.mutable_data()->data(), request.length_to_read(), iOffset);
         if (iPreadRet < 0)
         {
             iRet = E_PREAD_FAILED;
-            spdlog::error("ReadSliceHandler - co_pread() failed, errno: {}", iPreadRet);
+            spdlog::error("ReadSlice - co_pread() failed, errno: {}", iPreadRet);
             break;
         }
+        response.set_data_length(iPreadRet);
     } while (false);
-    spdlog::info("ReadSliceHandler - slice_id: 0x{:016x}, data_length: {}, ret: {}", request.slice_id(), iPreadRet, iRet);
+    // spdlog::debug("ReadSlice - rsp_pb: {}", response.DebugString());
+    spdlog::info("ReadSlice - slice_id: 0x{:016x}, data_length: {}, ret: {}", request.slice_id(), iPreadRet, iRet);
     return iRet;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <string>
 #include <cstdint>
 
 constexpr uint32_t TwoKiB = 2048; // in Bytes
@@ -11,23 +12,6 @@ constexpr auto ChunkLength = 1LU << 31; // 2 GiB
 constexpr uint32_t ChunkHeaderOffset = 0;
 constexpr uint32_t ChunkInodeSectionOffset = 4096;
 constexpr uint32_t ChunkDataSectionOffset = 16781312;
-
-namespace libco
-{
-    class CoMutex;
-}
-
-class CoMutexGuard
-{
-public:
-    CoMutexGuard(libco::CoMutex&);
-    CoMutexGuard(libco::CoMutex*);
-    ~CoMutexGuard(void);
-private:
-    libco::CoMutex& _CoMutex;
-    CoMutexGuard(CoMutexGuard&) = delete;
-    CoMutexGuard& operator= (CoMutexGuard&) = delete;
-};
 
 struct ChunkHeader
 {
@@ -77,4 +61,5 @@ struct Inode
     size_t SizeOfInode(void) const { return sizeof(Inode); }
     void FlushLruCache(uint64_t sliceId);
     ssize_t FlushToDisk(uint64_t sliceId, bool UseCoroutine = true);
+    std::string ShortDebugString(void) const;
 };

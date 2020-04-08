@@ -58,6 +58,7 @@ int AllocateInodeHandler::Implementation(void)
         auto &oDiskInfo = g_apDiskInfo[oSliceId.Disk()];
         auto &oChunkInfo = oDiskInfo.Chunks[oSliceId.Chunk()];
         oRetSliceId.SetSlice(oChunkInfo.NextInode);
+
         // // 分配分片后该chunk转移到writing，如果两者不同则请求无效
         // if (oChunkInfo.NextInode != oSliceId.Slice())
         // {
@@ -65,8 +66,9 @@ int AllocateInodeHandler::Implementation(void)
         //     spdlog::error("AllocateInode - request slice number: {}, should be: {}", oSliceId.Slice(), oChunkInfo.NextInode);
         //     break;
         // }
+
         // Lock this chunk
-        CoMutexGuard guard(oChunkInfo.Mutex);
+        // std::lock_guard<libco::CoMutex> oGuard(*oChunkInfo.Mutex); // TODO: fix coroutine mutex
         Inode oInode;
         oInode.RefCount = 1;
         oInode.LogicalLength = request.data_length();
@@ -75,7 +77,8 @@ int AllocateInodeHandler::Implementation(void)
         oChunkInfo.LogicalUsedSpace += oInode.LogicalLength;
         ++oChunkInfo.NextInode;
         oChunkInfo.State = static_cast<uint32_t>(ChunkFSM::WRITING); // 状态转移到 WRITING
-        auto iInodeFlushRet = oInode.FlushToDisk(request.chunk_id());
+        spdlog::debug(oInode.ShortDebugString());
+        auto iInodeFlushRet = oInode.FlushToDisk(oRetSliceId.UInt());
         if (iInodeFlushRet < 0)
         {
             iRet = E_FLUSH_INODE_FAILED;

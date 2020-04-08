@@ -61,9 +61,8 @@ int ManipulateReferenceCountHandler::Implementation(void)
         do
         {
             // 控制锁的生命周期
-            CoMutexGuard oGuard(oChunkInfo.Mutex);
+            std::lock_guard<libco::CoMutex> oGuard(*oChunkInfo.Mutex);
             auto oInode = InodeLruCache::GetInstance().Get(oSliceId.UInt());
-            // oInode.RefCount
             switch (request.operation())
             {
             case ::chunkserver::ManipulateReferenceCountReq::INCREASE:
@@ -82,10 +81,13 @@ int ManipulateReferenceCountHandler::Implementation(void)
                 return E_MANIP_REFCOUNT_OP_UNKNOWN;
             }
             auto iFlushRet = oInode.FlushToDisk(oSliceId.UInt());
-            iRet = E_FLUSH_INODE_FAILED;
-            spdlog::error("ManipulateReferenceCount - Flush inode to disk failed, syscall ret: {}, slice id: {:016x}", iFlushRet, request.slice_id());
+            if (iFlushRet < 0)
+            {
+                iRet = E_FLUSH_INODE_FAILED;
+                spdlog::error("ManipulateReferenceCount - Flush inode to disk failed, syscall ret: {}, slice id: {:016x}", iFlushRet, request.slice_id());
+            }
         } while (false);
     } while (false);
-    spdlog::trace("ManipulateReferenceCount - slice_id: 0x{:016x}", request.slice_id());
+    spdlog::info("ManipulateReferenceCount - slice_id: 0x{:016x}", request.slice_id());
     return iRet;
 }

@@ -1,4 +1,5 @@
 #include <colib/co_aio.h>
+#include <colib/co_mutex.h>
 #include <spdlog/spdlog.h>
 #include "coredeps/SliceId.hpp"
 
@@ -58,19 +59,25 @@ int WriteSliceHandler::Implementation(void)
         auto &oDiskInfo = g_apDiskInfo[oSliceId.Disk()];
         auto &oChunkInfo = oDiskInfo.Chunks[oSliceId.Chunk()];
         auto oInode = InodeLruCache::GetInstance().Get(oSliceId.UInt());
+
+        spdlog::debug("WriteSlice - request: psid={}, offset={}, datalen={}", oSliceId.UInt(), request.offset(), request.data().size());
+        spdlog::debug(oInode.ShortDebugString());
+
         if (request.offset() >= oInode.LogicalLength)
         {
             iRet = E_OFFSET_OUT_OF_RANGE;
             break;
         }
-        if (request.offset() + request.data().length() >= oInode.LogicalLength)
+        if (request.offset() + request.data().length() > oInode.LogicalLength)
         {
             iRet = E_DATA_LENGTH_OUT_OF_RANGE;
             break;
         }
-        CoMutexGuard oGuard(oChunkInfo.Mutex);
+        // std::lock_guard<libco::CoMutex> oGuard(*oChunkInfo.Mutex);
+        spdlog::debug("WriteSlice - mutex got");
         auto iOffset = oChunkInfo.GetDataSectionOffset() + oInode.Offset + request.offset();
         iPwriteRet = co_pwrite(oChunkInfo.DiskInfoPtr->Fd, (void*)request.data().data(), request.data().size(), iOffset);
+        spdlog::debug("WriteSlice - co_pwrite finished");
         if (iPwriteRet < 0)
         {
             iRet = E_PWRITE_FAILED;

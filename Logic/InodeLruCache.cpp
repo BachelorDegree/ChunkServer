@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <colib/co_aio.h>
 #include <colib/co_mutex.h>
+#include <spdlog/spdlog.h>
 
 #include "Logic.hpp"
 #include "InodeLruCache.hpp"
@@ -53,6 +54,7 @@ static uint64_t CalculateFirstSliceIn4kBlock(uint64_t uSliceId)
     auto oRetSid = oSid;
     auto iSliceNumber = oSid.Slice();
     oRetSid.SetSlice((iSliceNumber / InodeNumberIn4K) * InodeNumberIn4K);
+    spdlog::trace("LRU.CalculateFirstSliceIn4kBlock - in_sid={}, ret_sid={}", uSliceId, oRetSid.UInt());
     return oRetSid.UInt();
 }
 
@@ -61,8 +63,11 @@ static ssize_t Read4KInodes(uint64_t iStartSlice, void *pDest)
     Storage::SliceId oSid(iStartSlice);
     auto oChunkInfo = g_apDiskInfo[oSid.Disk()].Chunks[oSid.Chunk()];
     auto uOffset = oChunkInfo.GetInodeOffset(oSid.Slice());
-    CoMutexGuard guard(oChunkInfo.DiskInfoPtr->Mutex);
+    // std::lock_guard<libco::CoMutex> oGuard(*(oChunkInfo.DiskInfoPtr->Mutex));
+    std::lock_guard<libco::CoMutex> oGuard(*oChunkInfo.Mutex);
     auto iRet = co_pread(oChunkInfo.DiskInfoPtr->Fd, pDest, FourKiB, uOffset);
+    spdlog::trace("LRU.Read4KInodes - fd={}, pDest={}, nsize={}, offset={}", 
+        oChunkInfo.DiskInfoPtr->Fd, reinterpret_cast<uint64_t>(pDest), FourKiB, uOffset);
     return iRet;
 }
 
@@ -118,19 +123,29 @@ void* InodeLruCache::Get4kBlockPointer(uint64_t uSliceId)
 Inode InodeLruCache::Get(uint64_t uSliceId)
 {
     Inode oRet;
-    CoMutexGuard guard(PImpl->Mutex);
+    std::lock_guard<libco::CoMutex> oGuard(PImpl->Mutex);
     auto iFirstIn4K = CalculateFirstSliceIn4kBlock(uSliceId);
     auto pBlock = static_cast<char*>(this->Get4kBlockPointer(uSliceId));
     auto uOffsetDiff = (uSliceId - iFirstIn4K) * sizeof(Inode);
-    memcpy(&oRet, pBlock + uOffsetDiff, sizeof(Inode));
+    spdlog::trace("LRU.Get - pBlock={:016x}, uOffsetDiff={}",
+        reinterpret_cast<uint64_t>(pBlock), uOffsetDiff);
+    memcpy(&oRet, pBlock + uOffsetDiff, sizeof(oRet));
+    spdlog::trace("LRU.Get memcpy src={}, size={}",
+        reinterpret_cast<uint64_t>(pBlock + uOffsetDiff), sizeof(oRet));
+    spdlog::trace("LRU.Get - {}", oRet.ShortDebugString());
     return oRet;
 }
 
 void InodeLruCache::Put(uint64_t uSliceId, const Inode& oInode)
 {
-    CoMutexGuard guard(PImpl->Mutex);
+    std::lock_guard<libco::CoMutex> oGuard(PImpl->Mutex);
     auto iFirstIn4K = CalculateFirstSliceIn4kBlock(uSliceId);
     auto pBlock = static_cast<char*>(this->Get4kBlockPointer(uSliceId));
     auto uOffsetDiff = (uSliceId - iFirstIn4K) * sizeof(oInode);
+    spdlog::trace("LRU.Put - {}", oInode.ShortDebugString());
+    spdlog::trace("LRU.Put - pBlock={:016x}, uOffsetDiff={}", 
+        reinterpret_cast<uint64_t>(pBlock), uOffsetDiff);
     memcpy(pBlock + uOffsetDiff, &oInode, sizeof(oInode));
+    spdlog::trace("LRU.Put memcpy dest={}, size={}",
+        reinterpret_cast<uint64_t>(pBlock + uOffsetDiff), sizeof(oInode));
 }
